@@ -3,9 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servicios;
+package bootcamp.joseroth.servicios;
 
-import modelos.*;
+import bootcamp.joseroth.modelos.Pronostico;
+import bootcamp.joseroth.modelos.Ubicacion;
+import bootcamp.joseroth.modelos.Viento;
+import bootcamp.joseroth.modelos.Atmosfera;
+import bootcamp.joseroth.modelos.PronosticoExtendido;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
