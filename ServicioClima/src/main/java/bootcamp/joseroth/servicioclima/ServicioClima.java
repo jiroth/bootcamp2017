@@ -25,38 +25,38 @@ public class ServicioClima {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException {
-        // TODO code application logic here
         
         ServicioPronostico servicioPronostico = new ServicioPronostico();
-
-        Date fecha = servicioPronostico.cambiarFormatoFecha("Fri, 21 Apr 2017 05:00 PM ART");
+        
+        //DATOS HARDCODEADOS
+        Date fecha = servicioPronostico.textoAfecha("Fri, 21 Apr 2017 05:00 PM ART", true);
         
         Ubicacion ubicacion = new Ubicacion("Cordoba", "Argentina");
-        servicioPronostico.registrarUbicacion(ubicacion);
-        ubicacion.setIdUbicacion(servicioPronostico.getIdUbicacion());
+        int idUbicacion = servicioPronostico.registrarUbicacion(ubicacion);
+        ubicacion.setIdUbicacion(idUbicacion);
         
         Atmosfera atmosfera = new Atmosfera(59, 18);
-        servicioPronostico.registrarAtmosfera(atmosfera);
-        atmosfera.setIdAtmosfera(servicioPronostico.getIdAtmosfera());
+        int idAtmosfera = servicioPronostico.registrarAtmosfera(atmosfera);
+        atmosfera.setIdAtmosfera(idAtmosfera);
         
         Viento viento = new Viento(203, 7);
-        servicioPronostico.registrarViento(viento);
-        viento.setIdViento(servicioPronostico.getIdViento());
+        int idViento = servicioPronostico.registrarViento(viento);
+        viento.setIdViento(idViento);
         
         Pronostico pronostico = new Pronostico(fecha, ubicacion, 64, "Cloudy", atmosfera, viento);
-        servicioPronostico.registrarPronostico(pronostico);
-        pronostico.setIdPronostico(servicioPronostico.getIdPronostico());
+        int idPronostico = servicioPronostico.registrarPronostico(pronostico);
+        pronostico.setIdPronostico(idPronostico);
         
-        Date dia1 = servicioPronostico.textoAFechaPE("21 Apr 2017");
-        Date dia2 = servicioPronostico.textoAFechaPE("22 Apr 2017");
-        Date dia3 = servicioPronostico.textoAFechaPE("23 Apr 2017");
-        Date dia4 = servicioPronostico.textoAFechaPE("24 Apr 2017");
-        Date dia5 = servicioPronostico.textoAFechaPE("25 Apr 2017");
-        Date dia6 = servicioPronostico.textoAFechaPE("26 Apr 2017");
-        Date dia7 = servicioPronostico.textoAFechaPE("27 Apr 2017");
-        Date dia8 = servicioPronostico.textoAFechaPE("28 Apr 2017");
-        Date dia9 = servicioPronostico.textoAFechaPE("29 Apr 2017");
-        Date dia10 = servicioPronostico.textoAFechaPE("30 Apr 2017");
+        Date dia1 = servicioPronostico.textoAfecha("21 Apr 2017", false);
+        Date dia2 = servicioPronostico.textoAfecha("22 Apr 2017", false);
+        Date dia3 = servicioPronostico.textoAfecha("23 Apr 2017", false);
+        Date dia4 = servicioPronostico.textoAfecha("24 Apr 2017", false);
+        Date dia5 = servicioPronostico.textoAfecha("25 Apr 2017", false);
+        Date dia6 = servicioPronostico.textoAfecha("26 Apr 2017", false);
+        Date dia7 = servicioPronostico.textoAfecha("27 Apr 2017", false);
+        Date dia8 = servicioPronostico.textoAfecha("28 Apr 2017", false);
+        Date dia9 = servicioPronostico.textoAfecha("29 Apr 2017", false);
+        Date dia10 = servicioPronostico.textoAfecha("30 Apr 2017", false);
         PronosticoExtendido pe1 = new PronosticoExtendido(dia1, "Fri", "Partly Cloudy", 58, 64);
         PronosticoExtendido pe2 = new PronosticoExtendido(dia2, "Sat", "Partly Cloudy", 53, 67);
         PronosticoExtendido pe3 = new PronosticoExtendido(dia3, "Sun", "Partly Cloudy", 52, 68);
@@ -84,11 +84,13 @@ public class ServicioClima {
         }
         pronostico.setPronositicoExtendido(pronosticoExtendido);
 
+        
         //SE MUESTRAN LOS DATOS INGRESADOS A MANO
 //        System.out.println(pronostico.toString());
         
+
         //SE TRAEN LOS DATOS DE LA BASE
-        Pronostico p = servicioPronostico.getPronostico(servicioPronostico.getIdPronostico());
+        Pronostico p = servicioPronostico.getPronostico(idPronostico);
         ArrayList<PronosticoExtendido> pe = servicioPronostico.getPronosticoExtendido(p.getIdPronostico());
         p.setPronositicoExtendido(pe);
         Ubicacion u = servicioPronostico.getUbicacion(p.getUbicacion().getIdUbicacion());

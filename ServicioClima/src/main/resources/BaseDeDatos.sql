@@ -1,6 +1,6 @@
-create database ServicioClima;
+-- create database ServicioClima;
 
-use ServicioClima;
+-- use ServicioClima;
 
 create table Atmosfera (
 	idAtmosfera int not null auto_increment,

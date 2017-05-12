@@ -26,60 +26,50 @@ import java.util.Locale;
 public class ServicioPronostico {
 
     private static Conexion conexion;
-    private int idViento, idAtmosfera, idUbicacion, idPronostico;
+    private static Statement st;
+    
 
-    public int getIdViento() {
-        return idViento;
-    }
-
-    public int getIdAtmosfera() {
-        return idAtmosfera;
-    }
-
-    public int getIdUbicacion() {
-        return idUbicacion;
-    }
-
-    public int getIdPronostico() {
-        return idPronostico;
-    }
-
-    public Date cambiarFormatoFecha(String s) {
+    public Date textoAfecha(String s, boolean b) {
         Date fecha = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm aaa z", Locale.US);
+        SimpleDateFormat formatter;
+        if(b) {
+            formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm aaa z", Locale.US);
+        } else {
+            formatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+        }
         try {
             fecha = formatter.parse(s);
         } catch (ParseException e) {
             e.printStackTrace();
-            System.out.println(e.getMessage());
         }
         return fecha;
     }
+    
 
-    public Date textoAFechaPE(String fechaEnTexto) {
-        Date fecha = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+    private void abrirConexion() {
         try {
-            fecha = formatter.parse(fechaEnTexto);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return fecha;
-    }
-
-    private void cerrarConexion() {
-        try {
-            Conexion.delInstance();
+            conexion = Conexion.getInstance();
+            st = conexion.getConn().createStatement();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    
+    private void cerrarConexion() {
+        try {
+            Conexion.delInstance();
+            conexion = null;
+            st = null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
 
     private boolean registrar(String sql) {
         boolean registrado = false;
         try {
-            conexion = Conexion.getInstance();
-            Statement st = conexion.getConn().createStatement();
+            abrirConexion();
             st.executeUpdate(sql);
             registrado = true;
         } catch (Exception e) {
@@ -93,8 +83,7 @@ public class ServicioPronostico {
     private ResultSet obtener(String sql) {
         ResultSet resultado = null;
         try {
-            conexion = Conexion.getInstance();
-            Statement st = conexion.getConn().createStatement();
+            abrirConexion();
             resultado = st.executeQuery(sql);
         } catch (Exception e) {
             e.printStackTrace();
@@ -116,34 +105,43 @@ public class ServicioPronostico {
         cerrarConexion();
         return id;
     }
+    
 
-    public void registrarViento(Viento v) throws SQLException {
+    public int registrarViento(Viento v) throws SQLException {
+        int id = 0;
         String sql = "insert into Viento (direccion, velocidad) values (" + v.getDireccion() + ", " + v.getVelocidad() + ");";
         if (registrar(sql)) {
-            this.idViento = getId("select max(idViento) as id from viento;");
+            id = getId("select max(idViento) as id from viento;");
         }
+        return id;
     }
 
-    public void registrarAtmosfera(Atmosfera a) throws SQLException {
+    public int registrarAtmosfera(Atmosfera a) throws SQLException {
+        int id = 0;
         String sql = "insert into Atmosfera (humedad, visibilidad) values (" + a.getHumedad() + ", " + a.getVisibilidad() + ");";
         if (registrar(sql)) {
-            this.idAtmosfera = getId("select max(idAtmosfera) as id from atmosfera;");
+            id = getId("select max(idAtmosfera) as id from atmosfera;");
         }
+        return id;
     }
 
-    public void registrarUbicacion(Ubicacion u) throws SQLException {
+    public int registrarUbicacion(Ubicacion u) throws SQLException {
+        int id = 0;
         String sql = "insert into Ubicacion (ciudad, pais) values ('" + u.getCiudad() + "', '" + u.getPais() + "');";
         if (registrar(sql)) {
-            this.idUbicacion = getId("select max(idUbicacion) as id from ubicacion;");
+            id = getId("select max(idUbicacion) as id from ubicacion;");
         }
+        return id;
     }
 
-    public void registrarPronostico(Pronostico p) throws SQLException {
+    public int registrarPronostico(Pronostico p) throws SQLException {
+        int id = 0;
         String fecha = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(p.getFecha());
         String sql = "insert into pronostico(fecha, idUbicacion, temperatura, estado, idAtmosfera, idViento) values('" + fecha + "', " + p.getUbicacion().getIdUbicacion() + ", " + p.getTemperatura() + ", '" + p.getEstado() + "', " + p.getAtmosfera().getIdAtmosfera() + ", " + p.getViento().getIdViento() + ");";
         if (registrar(sql)) {
-            this.idPronostico = getId("select max(idPronostico) as id from pronostico;");
+            id = getId("select max(idPronostico) as id from pronostico;");
         }
+        return id;
     }
 
     public void registrarPronosticoExtendido(PronosticoExtendido pe) {
@@ -151,6 +149,7 @@ public class ServicioPronostico {
         String sql = "insert into PronosticoExtendido (fecha, dia, estado, minima, maxima, idPronostico) values('" + fecha + "', '" + pe.getDia() + "', '" + pe.getEstado() + "', " + pe.getMinima() + ", " + pe.getMaxima() + ", " + pe.getIdPronostico() + ");";
         registrar(sql);
     }
+    
 
     public Atmosfera getAtmosfera(int idAtmosfera) throws SQLException {
         Atmosfera atmosfera = null;
@@ -259,4 +258,5 @@ public class ServicioPronostico {
         cerrarConexion();
         return lista;
     }
+    
 }
