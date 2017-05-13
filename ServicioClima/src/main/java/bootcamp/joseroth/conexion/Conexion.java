@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bootcamp.joseroth.servicios;
+package bootcamp.joseroth.conexion;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,13 +20,12 @@ public class Conexion {
     private static final String USESSL = "?&useSSL=false";
     private static final String USUARIO = "root";
     private static final String PASSWORD = "1234";
-    private static Connection conn;
-    private static Conexion instance = null;
+    private static Connection instance = null;
     
     private Conexion() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection(URL + DB + USESSL, USUARIO, PASSWORD);
+            instance = DriverManager.getConnection(URL + DB + USESSL, USUARIO, PASSWORD);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -34,28 +33,23 @@ public class Conexion {
         }
     }
     
+    public static Connection getInstance() {
+        if (instance == null) {
+            new Conexion();
+        }
+        return instance;
+    }
+    
     private static void closeConnection() {
         try {
-            conn.close();
+            instance.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
     
-    public static Conexion getInstance() {
-        if (instance == null) {
-            instance = new Conexion();
-        }
-        return instance;
-    }
-    
     public static void delInstance() {
-        instance = null;
         closeConnection();
+        instance = null;
     }
-
-    public static Connection getConn() {
-        return conn;
-    }
-
 }

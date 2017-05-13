@@ -5,11 +5,7 @@
  */
 package bootcamp.joseroth.servicioclima;
 
-import bootcamp.joseroth.modelos.Pronostico;
-import bootcamp.joseroth.modelos.Viento;
-import bootcamp.joseroth.modelos.Ubicacion;
-import bootcamp.joseroth.modelos.Atmosfera;
-import bootcamp.joseroth.modelos.PronosticoExtendido;
+import bootcamp.joseroth.modelos.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -101,5 +97,4 @@ public class ServicioClima {
         p.setViento(v);
         System.out.println(p.toString());
     }
-    
 }

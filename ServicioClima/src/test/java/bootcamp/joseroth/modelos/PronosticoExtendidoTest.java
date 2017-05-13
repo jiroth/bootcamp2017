@@ -110,7 +110,7 @@ public class PronosticoExtendidoTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        String expResult = "\n  Fecha: 21 abr 2017\n   Día: Mon\n   Estado: Partly Cloudy\n   Mínima: 58\n   Máxima: 64";
+        String expResult = "\nFecha: 21 abr 2017\nDía: Mon\nEstado: Partly Cloudy\nMínima: 58\nMáxima: 64";
         String result = pe.toString();
         assertEquals(expResult, result);
     }

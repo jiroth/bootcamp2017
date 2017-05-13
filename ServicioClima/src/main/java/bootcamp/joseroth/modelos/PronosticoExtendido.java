@@ -91,7 +91,7 @@ public class PronosticoExtendido {
 
     @Override
     public String toString() {
-        return "\n  Fecha: " + formatter.format(fecha) + "\n   Día: " + dia + "\n   Estado: " + estado + "\n   Mínima: " + minima + "\n   Máxima: " + maxima;
+        return "\nFecha: " + formatter.format(fecha) + "\nDía: " + dia + "\nEstado: " + estado + "\nMínima: " + minima + "\nMáxima: " + maxima;
     }
     
 }

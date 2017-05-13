@@ -5,11 +5,8 @@
  */
 package bootcamp.joseroth.servicios;
 
-import bootcamp.joseroth.modelos.Pronostico;
-import bootcamp.joseroth.modelos.Ubicacion;
-import bootcamp.joseroth.modelos.Viento;
-import bootcamp.joseroth.modelos.Atmosfera;
-import bootcamp.joseroth.modelos.PronosticoExtendido;
+import bootcamp.joseroth.conexion.Conexion;
+import bootcamp.joseroth.modelos.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -24,11 +21,9 @@ import java.util.Locale;
  * @author José Ignacio Roth
  */
 public class ServicioPronostico {
-
-    private static Conexion conexion;
     private static Statement st;
     
-
+    
     public Date textoAfecha(String s, boolean b) {
         Date fecha = new Date();
         SimpleDateFormat formatter;
@@ -45,11 +40,15 @@ public class ServicioPronostico {
         return fecha;
     }
     
+    public String formatoFecha(Date d) {
+        String fecha = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(d);
+        return fecha;
+    }
+    
 
     private void abrirConexion() {
         try {
-            conexion = Conexion.getInstance();
-            st = conexion.getConn().createStatement();
+            st = Conexion.getInstance().createStatement();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,15 +56,14 @@ public class ServicioPronostico {
     
     private void cerrarConexion() {
         try {
-            Conexion.delInstance();
-            conexion = null;
             st = null;
+            Conexion.delInstance();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
     
-
+    
     private boolean registrar(String sql) {
         boolean registrado = false;
         try {
@@ -91,7 +89,7 @@ public class ServicioPronostico {
         return resultado;
     }
 
-    public int getId(String sql) throws SQLException {
+    private int getId(String sql) throws SQLException {
         int id = 0;
         ResultSet resultado = obtener(sql);
         if (resultado != null) {
@@ -136,8 +134,9 @@ public class ServicioPronostico {
 
     public int registrarPronostico(Pronostico p) throws SQLException {
         int id = 0;
-        String fecha = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(p.getFecha());
-        String sql = "insert into pronostico(fecha, idUbicacion, temperatura, estado, idAtmosfera, idViento) values('" + fecha + "', " + p.getUbicacion().getIdUbicacion() + ", " + p.getTemperatura() + ", '" + p.getEstado() + "', " + p.getAtmosfera().getIdAtmosfera() + ", " + p.getViento().getIdViento() + ");";
+        String sql = "insert into pronostico(fecha, idUbicacion, temperatura, estado, idAtmosfera, idViento) "
+                + "values('" + formatoFecha(p.getFecha()) + "', " + p.getUbicacion().getIdUbicacion() + ", " + p.getTemperatura() + ", '" 
+                + p.getEstado() + "', " + p.getAtmosfera().getIdAtmosfera() + ", " + p.getViento().getIdViento() + ");";
         if (registrar(sql)) {
             id = getId("select max(idPronostico) as id from pronostico;");
         }
@@ -145,12 +144,13 @@ public class ServicioPronostico {
     }
 
     public void registrarPronosticoExtendido(PronosticoExtendido pe) {
-        String fecha = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(pe.getFecha());
-        String sql = "insert into PronosticoExtendido (fecha, dia, estado, minima, maxima, idPronostico) values('" + fecha + "', '" + pe.getDia() + "', '" + pe.getEstado() + "', " + pe.getMinima() + ", " + pe.getMaxima() + ", " + pe.getIdPronostico() + ");";
+        String sql = "insert into PronosticoExtendido (fecha, dia, estado, minima, maxima, idPronostico) values('" 
+                + formatoFecha(pe.getFecha()) + "', '" + pe.getDia() + "', '" + pe.getEstado() + "', " + pe.getMinima() + ", " 
+                + pe.getMaxima() + ", " + pe.getIdPronostico() + ");";
         registrar(sql);
     }
     
-
+    
     public Atmosfera getAtmosfera(int idAtmosfera) throws SQLException {
         Atmosfera atmosfera = null;
         String sql = "select * from Atmosfera where idAtmosfera = " + idAtmosfera;

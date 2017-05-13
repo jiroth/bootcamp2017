@@ -141,21 +141,21 @@ public class PronosticoTest {
 
     @Test
     public void testToString() throws ParseException {
-//        System.out.println("toString");
-//        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.US);
-//        Date dia1 = sdf.parse("21 Apr 2017");
-//        Date dia2 = sdf.parse("22 Apr 2017");
-//        PronosticoExtendido pe1 = new PronosticoExtendido(dia1, "Fri", "Partly Cloudy", 58, 64);
-//        PronosticoExtendido pe2 = new PronosticoExtendido(dia2, "Sat", "Partly Cloudy", 53, 67);
-//        pronosticoExtendido.add(pe1);
-//        pronosticoExtendido.add(pe2);              
-//        p.setPronositicoExtendido(pronosticoExtendido);
-//        String expResult = "Pronostico: \n Fecha: Fri Apr 21 05:00:00 ART 2017\n Ubicacion: Cordoba, Argentina\n Temperatura: 64\n  "
-//                + "Estado: Cloudy\n  Atmósfera: Humedad: 59, Visibilidad: 18.0\n  Viento: Direccion: 203, Velocidad: 7\n "
-//                + "Pronósitico Extendido: [   Fecha: 21 abr 2017\n   Día: Fri\n   Estado: Partly Cloudy\n   Mínima: 58\n   Máxima: 64, "
-//                + "\n  Fecha: 22 abr 2017\n   Día: Sat\n   Estado: Partly Cloudy\n   Mínima: 53\n   Máxima: 67]";
-//        String result = p.toString();
-//        assertEquals(expResult, result);
+        System.out.println("toString");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+        Date dia1 = sdf.parse("21 Apr 2017");
+        Date dia2 = sdf.parse("22 Apr 2017");
+        PronosticoExtendido pe1 = new PronosticoExtendido(dia1, "Fri", "Partly Cloudy", 58, 64);
+        PronosticoExtendido pe2 = new PronosticoExtendido(dia2, "Sat", "Partly Cloudy", 53, 67);
+        pronosticoExtendido.add(pe1);
+        pronosticoExtendido.add(pe2);              
+        p.setPronositicoExtendido(pronosticoExtendido);
+        String expResult = "Pronostico: \nFecha: Fri Apr 21 05:00:00 ART 2017\nUbicacion: Cordoba, Argentina\nTemperatura: 64\n"
+                + "Estado: Cloudy\nAtmósfera: Humedad: 59, Visibilidad: 18.0\nViento: Direccion: 203, Velocidad: 7\n"
+                + "Pronósitico Extendido: [\nFecha: 21 abr 2017\nDía: Fri\nEstado: Partly Cloudy\nMínima: 58\nMáxima: 64, "
+                + "\nFecha: 22 abr 2017\nDía: Sat\nEstado: Partly Cloudy\nMínima: 53\nMáxima: 67]";
+        String result = p.toString();
+        assertEquals(expResult, result);
     }
 
 }

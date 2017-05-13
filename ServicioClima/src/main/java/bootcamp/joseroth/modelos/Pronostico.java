@@ -100,7 +100,9 @@ public class Pronostico {
 
     @Override
     public String toString() {
-        return "Pronostico: \n Fecha: " + fecha + "\n Ubicacion: " + ubicacion + "\n Temperatura: " + temperatura + "\n  Estado: " + estado + "\n  Atmósfera: " + atmosfera + "\n  Viento: " + viento + "\n Pronósitico Extendido: " + pronositicoExtendido;
+        return "Pronostico: \nFecha: " + fecha + "\nUbicacion: " + ubicacion + "\nTemperatura: " + temperatura 
+                + "\nEstado: " + estado + "\nAtmósfera: " + atmosfera + "\nViento: " + viento + "\nPronósitico Extendido: " 
+                + pronositicoExtendido;
     }
     
 }
