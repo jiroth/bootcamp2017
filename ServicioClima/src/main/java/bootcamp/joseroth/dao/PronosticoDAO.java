@@ -10,11 +10,10 @@ import bootcamp.joseroth.modelos.Atmosfera;
 import bootcamp.joseroth.modelos.Pronostico;
 import bootcamp.joseroth.modelos.Ubicacion;
 import bootcamp.joseroth.modelos.Viento;
-import bootcamp.joseroth.servicios.ServicioBD;
+import bootcamp.joseroth.servicios.SQLDataManipulation;
+import bootcamp.joseroth.servicios.Utils;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,13 +21,12 @@ import java.util.logging.Logger;
  *
  * @author José Ignacio Roth
  */
-public class PronosticoDAO implements ClimaDAO {
-
-    ServicioBD sBD = new ServicioBD();
+public class PronosticoDAO extends SQLDataManipulation implements ClimaDAO {
 
     @Override
     public int insertar(Object o) {
         int id = 0;
+        Utils utils = new Utils();
         Pronostico p = null;
         try {
             p = (Pronostico) o;
@@ -36,11 +34,11 @@ public class PronosticoDAO implements ClimaDAO {
             System.out.println(e.getMessage());
         }
         String sql = "insert into pronostico(fecha, idUbicacion, temperatura, estado, idAtmosfera, idViento) "
-                + "values('" + sBD.formatoFecha(p.getFecha()) + "', " + p.getUbicacion().getIdUbicacion() + ", " + p.getTemperatura() + ", '"
+                + "values('" + utils.formatoFecha(p.getFecha()) + "', " + p.getUbicacion().getIdUbicacion() + ", " + p.getTemperatura() + ", '"
                 + p.getEstado() + "', " + p.getAtmosfera().getIdAtmosfera() + ", " + p.getViento().getIdViento() + ");";
-        if (sBD.registrar(sql)) {
+        if (super.registrar(sql)) {
             try {
-                id = sBD.getId("select max(idPronostico) as id from pronostico;");
+                id = super.getId("select max(idPronostico) as id from pronostico;");
             } catch (SQLException ex) {
                 Logger.getLogger(PronosticoDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -52,15 +50,14 @@ public class PronosticoDAO implements ClimaDAO {
     public Object select(int i) {
         Pronostico p = new Pronostico();
         String sql = "select * from Pronostico where idPronostico = " + i;
-        ResultSet rs = sBD.obtener(sql);
+        ResultSet rs = super.obtener(sql);
         if (rs != null) {
             try {
                 if (rs.next()) {
-                    p = new PronosticoBuilder().withIdPronostico(rs.getInt("idPronostico"))
+                    p = new PronosticoBuilder().withIdPronostico(rs.getInt("idPronostico")).withFecha(rs.getDate("fecha"))
                             .withUbicacion(new Ubicacion(rs.getInt("idUbicacion"))).withTemperatura(rs.getInt("temperatura"))
                             .withEstado(rs.getString("estado")).withAtmosfera(new Atmosfera(rs.getInt("idAtmosfera")))
                             .withViento(new Viento(rs.getInt("idViento"))).build();
-                    p.setFecha(rs.getDate("fecha"));
                 }
                 if (!rs.isClosed()) {
                     rs.close();
@@ -69,7 +66,8 @@ public class PronosticoDAO implements ClimaDAO {
                 Logger.getLogger(PronosticoDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        sBD.cerrarConexion();
+        super.st = null;
+        super.sBD.cerrarConexion();
         return p;
     }
 

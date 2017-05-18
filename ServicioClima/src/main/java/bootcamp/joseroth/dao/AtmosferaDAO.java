@@ -6,19 +6,20 @@
 package bootcamp.joseroth.dao;
 
 import bootcamp.joseroth.modelos.Atmosfera;
-import bootcamp.joseroth.servicios.ServicioBD;
+import bootcamp.joseroth.servicios.SQLDataManipulation;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author José Ignacio Roth
  */
-public class AtmosferaDAO implements ClimaDAO {
-    ServicioBD sBD = new ServicioBD();
-
+@Repository
+public class AtmosferaDAO extends SQLDataManipulation implements ClimaDAO {
+    
     @Override
     public int insertar(Object o) {
         int id = 0;
@@ -29,9 +30,9 @@ public class AtmosferaDAO implements ClimaDAO {
             System.out.println(e.getMessage());
         }
         String sql = "insert into Atmosfera (humedad, visibilidad) values (" + a.getHumedad() + ", " + a.getVisibilidad() + ");";
-        if (sBD.registrar(sql)) {
+        if (super.registrar(sql)) {
             try {
-                id = sBD.getId("select max(idAtmosfera) as id from atmosfera;");
+                id = super.getId("select max(idAtmosfera) as id from atmosfera;");
             } catch (SQLException ex) {
                 Logger.getLogger(AtmosferaDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -40,10 +41,10 @@ public class AtmosferaDAO implements ClimaDAO {
     }
 
     @Override
-    public Object select(int i) {
+    public Atmosfera select(int i) {
         Atmosfera a = new Atmosfera();
         String sql = "select * from Atmosfera where idAtmosfera = " + i;
-        ResultSet resultado = sBD.obtener(sql);
+        ResultSet resultado = super.obtener(sql);
         if (resultado != null) {
             try {
                 if (resultado.next()) {
@@ -58,7 +59,8 @@ public class AtmosferaDAO implements ClimaDAO {
                 Logger.getLogger(AtmosferaDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        sBD.cerrarConexion();
+        super.st = null;
+        super.sBD.cerrarConexion();
         return a;
     }
     

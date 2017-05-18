@@ -9,7 +9,7 @@ import bootcamp.joseroth.builders.*;
 import bootcamp.joseroth.dao.*;
 import bootcamp.joseroth.modelos.*;
 import java.util.ArrayList;
-import bootcamp.joseroth.servicios.ServicioBD;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -21,10 +21,12 @@ public class ServicioClima {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ServicioBD sBD = new ServicioBD();
-
+        
+        @Autowired
+        ClimaDAO atmosferaDAO;
+        
+        
         ClimaDAO ubicacionDAO = new UbicacionDAO();
-        ClimaDAO atmosferaDAO = new AtmosferaDAO();
         ClimaDAO vientoDAO = new VientoDAO();
         ClimaDAO pronosticoDAO = new PronosticoDAO();
         ClimaDAO pronosticoExtendidoDAO = new PronosticoExtendidoDAO();
@@ -83,6 +85,5 @@ public class ServicioClima {
         p.setViento(v);
 
         System.out.println(p.toString());
-
     }
 }

@@ -11,13 +11,13 @@ import bootcamp.joseroth.modelos.Pronostico;
 import bootcamp.joseroth.modelos.Ubicacion;
 import bootcamp.joseroth.modelos.Viento;
 import bootcamp.joseroth.servicios.ServicioBD;
+import bootcamp.joseroth.servicios.Utils;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -93,22 +93,23 @@ public class PronosticoDAOTest {
 
     @Test
     public void testSelect() throws SQLException, ParseException {
+        Utils utils = new Utils();
         String sql = "select * from Pronostico"; 
         ResultSet rs = st.executeQuery(sql);
         Pronostico p = null;
         if (rs != null) {
             if (rs.next()) {
-                p = new PronosticoBuilder().withIdPronostico(rs.getInt("idPronostico")).withUbicacion(new Ubicacion(rs.getInt("idUbicacion")))
+                p = new PronosticoBuilder().withIdPronostico(rs.getInt("idPronostico")).withFecha(rs.getDate("fecha"))
+                        .withUbicacion(new Ubicacion(rs.getInt("idUbicacion")))
                         .withTemperatura(rs.getInt("temperatura")).withEstado(rs.getString("estado"))
                         .withAtmosfera(new Atmosfera(rs.getInt("idAtmosfera"))).withViento(new Viento(rs.getInt("idViento"))).build();
-                p.setFecha(rs.getDate("fecha"));
             }
             if (!rs.isClosed()) {
                 rs.close();
             }
         }
         assertEquals(1, p.getIdPronostico());
-        assertEquals(sBD.textoAfecha("21 Apr 2017", false), p.getFecha());
+        assertEquals(utils.textoAfecha("21 Apr 2017", false), p.getFecha());
         assertEquals(1, p.getUbicacion().getIdUbicacion());
         assertEquals(70, p.getTemperatura());
         assertEquals("Nublado", p.getEstado());

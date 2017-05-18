@@ -6,7 +6,7 @@
 package bootcamp.joseroth.builders;
 
 import bootcamp.joseroth.modelos.PronosticoExtendido;
-import bootcamp.joseroth.servicios.ServicioBD;
+import bootcamp.joseroth.servicios.Utils;
 import java.util.Date;
 
 /**
@@ -27,9 +27,17 @@ public class PronosticoExtendidoBuilder {
         return this;
     }
     
-    public PronosticoExtendidoBuilder withFecha(String f) {
-        ServicioBD sBD = new ServicioBD();
-        this.fecha = sBD.textoAfecha(f, false);
+    public PronosticoExtendidoBuilder withFecha(Object o) {
+        Utils utils = new Utils();
+        if(o instanceof Date) {
+            try {
+                this.fecha = (Date)o;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        } else if(o instanceof String) {
+            this.fecha = utils.textoAfecha((String)o, false);
+        }
         return this;
     }
     

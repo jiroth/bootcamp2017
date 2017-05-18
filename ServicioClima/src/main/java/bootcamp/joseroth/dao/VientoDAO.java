@@ -6,7 +6,7 @@
 package bootcamp.joseroth.dao;
 
 import bootcamp.joseroth.modelos.Viento;
-import bootcamp.joseroth.servicios.ServicioBD;
+import bootcamp.joseroth.servicios.SQLDataManipulation;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -16,8 +16,7 @@ import java.util.logging.Logger;
  *
  * @author José Ignacio Roth
  */
-public class VientoDAO implements ClimaDAO {
-    ServicioBD sBD = new ServicioBD();
+public class VientoDAO extends SQLDataManipulation implements ClimaDAO {
 
     @Override
     public int insertar(Object o) {
@@ -29,9 +28,9 @@ public class VientoDAO implements ClimaDAO {
             System.out.println(e.getMessage());
         }
         String sql = "insert into Viento (direccion, velocidad) values (" + v.getDireccion() + ", " + v.getVelocidad() + ");";
-        if (sBD.registrar(sql)) {
+        if (super.registrar(sql)) {
             try {
-                id = sBD.getId("select max(idViento) as id from viento;");
+                id = super.getId("select max(idViento) as id from viento;");
             } catch (SQLException ex) {
                 Logger.getLogger(VientoDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -43,7 +42,7 @@ public class VientoDAO implements ClimaDAO {
     public Object select(int i) {
         Viento v = new Viento();
         String sql = "select * from Viento where idViento = " + i;
-        ResultSet resultado = sBD.obtener(sql);
+        ResultSet resultado = super.obtener(sql);
         if (resultado != null) {
             try {
                 if (resultado.next()) {
@@ -58,7 +57,8 @@ public class VientoDAO implements ClimaDAO {
                 Logger.getLogger(VientoDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        sBD.cerrarConexion();
+        super.st = null;
+        super.sBD.cerrarConexion();
         return v;
     }
     

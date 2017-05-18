@@ -5,12 +5,8 @@
  */
 package bootcamp.joseroth.builders;
 
-import bootcamp.joseroth.modelos.Atmosfera;
-import bootcamp.joseroth.modelos.Pronostico;
-import bootcamp.joseroth.modelos.PronosticoExtendido;
-import bootcamp.joseroth.modelos.Ubicacion;
-import bootcamp.joseroth.modelos.Viento;
-import bootcamp.joseroth.servicios.ServicioBD;
+import bootcamp.joseroth.modelos.*;
+import bootcamp.joseroth.servicios.Utils;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -33,9 +29,17 @@ public class PronosticoBuilder {
         return this;
     }
     
-    public PronosticoBuilder withFecha(String f) {
-        ServicioBD sBD = new ServicioBD();
-        this.fecha = sBD.textoAfecha(f, true);
+    public PronosticoBuilder withFecha(Object o) {
+        Utils utils = new Utils();
+        if(o instanceof Date) {
+            try {
+                this.fecha = (Date)o;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        } else if(o instanceof String) {
+            this.fecha = utils.textoAfecha((String)o, true);
+        }
         return this;
     }
     

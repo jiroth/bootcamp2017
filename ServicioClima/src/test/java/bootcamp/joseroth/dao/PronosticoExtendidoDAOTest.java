@@ -8,6 +8,7 @@ package bootcamp.joseroth.dao;
 import bootcamp.joseroth.builders.PronosticoExtendidoBuilder;
 import bootcamp.joseroth.modelos.PronosticoExtendido;
 import bootcamp.joseroth.servicios.ServicioBD;
+import bootcamp.joseroth.servicios.Utils;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -92,21 +93,22 @@ public class PronosticoExtendidoDAOTest {
     @Test
     public void testSelect() throws SQLException {
         String sql = "select * from PronosticoExtendido";
+        Utils utils = new Utils();
         PronosticoExtendido pe = new PronosticoExtendido();
         ResultSet rs = st.executeQuery(sql);;
         if (rs != null) {
             if (rs.next()) {
                 pe = new PronosticoExtendidoBuilder().withIdPronosticoExtendido(rs.getInt("idPronosticoExtendido"))
-                        .withDia(rs.getString("dia")).withEstado(rs.getString("estado")).withMinima(rs.getInt("minima"))
-                        .withMaxima(rs.getInt("maxima")).withIdPronostico(rs.getInt("idPronostico")).build();
-                pe.setFecha(rs.getDate("fecha"));
+                        .withFecha(rs.getDate("fecha")).withDia(rs.getString("dia")).withEstado(rs.getString("estado"))
+                        .withMinima(rs.getInt("minima")).withMaxima(rs.getInt("maxima"))
+                        .withIdPronostico(rs.getInt("idPronostico")).build();
             }
             if (!rs.isClosed()) {
                 rs.close();
             }
         }
         assertEquals(1, pe.getIdPronosticoExtendido());
-        assertEquals(sBD.textoAfecha("21 Apr 2017", false), pe.getFecha());
+        assertEquals(utils.textoAfecha("21 Apr 2017", false), pe.getFecha());
         assertEquals("Fri", pe.getDia());
         assertEquals("Partly Cloudy", pe.getEstado());
         assertEquals(58, pe.getMinima());

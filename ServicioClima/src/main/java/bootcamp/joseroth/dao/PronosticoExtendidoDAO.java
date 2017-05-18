@@ -7,7 +7,8 @@ package bootcamp.joseroth.dao;
 
 import bootcamp.joseroth.builders.PronosticoExtendidoBuilder;
 import bootcamp.joseroth.modelos.PronosticoExtendido;
-import bootcamp.joseroth.servicios.ServicioBD;
+import bootcamp.joseroth.servicios.SQLDataManipulation;
+import bootcamp.joseroth.servicios.Utils;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,13 +19,12 @@ import java.util.logging.Logger;
  *
  * @author José Ignacio Roth
  */
-public class PronosticoExtendidoDAO implements ClimaDAO {
-
-    ServicioBD sBD = new ServicioBD();
+public class PronosticoExtendidoDAO extends SQLDataManipulation implements ClimaDAO {
 
     @Override
     public int insertar(Object o) {
         int id = 0;
+        Utils utils = new Utils();
         PronosticoExtendido pe = null;
         try {
             pe = (PronosticoExtendido) o;
@@ -32,11 +32,11 @@ public class PronosticoExtendidoDAO implements ClimaDAO {
             System.out.println(e.getMessage());
         }
         String sql = "insert into PronosticoExtendido (fecha, dia, estado, minima, maxima, idPronostico) values('"
-                + sBD.formatoFecha(pe.getFecha()) + "', '" + pe.getDia() + "', '" + pe.getEstado() + "', " + pe.getMinima() + ", "
+                + utils.formatoFecha(pe.getFecha()) + "', '" + pe.getDia() + "', '" + pe.getEstado() + "', " + pe.getMinima() + ", "
                 + pe.getMaxima() + ", " + pe.getIdPronostico() + ");";
-        if (sBD.registrar(sql)) {
+        if (super.registrar(sql)) {
             try {
-                id = sBD.getId("select max(idPronosticoExtendido) as id from PronosticoExtendido;");
+                id = super.getId("select max(idPronosticoExtendido) as id from PronosticoExtendido;");
             } catch (SQLException ex) {
                 Logger.getLogger(PronosticoExtendidoDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -48,15 +48,15 @@ public class PronosticoExtendidoDAO implements ClimaDAO {
     public Object select(int i) {
         ArrayList<PronosticoExtendido> lista = new ArrayList<>();
         String sql = "select * from PronosticoExtendido where idPronostico = " + i;
-        ResultSet rs = sBD.obtener(sql);
+        ResultSet rs = super.obtener(sql);
         if (rs != null) {
             try {
                 while (rs.next()) {
                     PronosticoExtendido pe;
                     pe = new PronosticoExtendidoBuilder().withIdPronosticoExtendido(rs.getInt("idPronosticoExtendido"))
-                            .withDia(rs.getString("dia")).withEstado(rs.getString("estado")).withMinima(rs.getInt("minima"))
-                            .withMaxima(rs.getInt("maxima")).withIdPronostico(rs.getInt("idPronostico")).build();
-                    pe.setFecha(rs.getDate("fecha"));
+                            .withFecha(rs.getDate("fecha")).withDia(rs.getString("dia")).withEstado(rs.getString("estado"))
+                            .withMinima(rs.getInt("minima")).withMaxima(rs.getInt("maxima"))
+                            .withIdPronostico(rs.getInt("idPronostico")).build();
                     lista.add(pe);
                 }
                 if (!rs.isClosed()) {
@@ -66,7 +66,8 @@ public class PronosticoExtendidoDAO implements ClimaDAO {
                 Logger.getLogger(PronosticoExtendidoDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        sBD.cerrarConexion();
+        super.st = null;
+        super.sBD.cerrarConexion();
         return lista;
     }
 
