@@ -24,7 +24,25 @@
           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd
 ">
+    
     <context:component-scan base-package="bootcamp.joseroth.conexion" />
+    <context:component-scan base-package="bootcamp.joseroth.modelos" />
     <context:component-scan base-package="bootcamp.joseroth.servicios" />
     <context:component-scan base-package="bootcamp.joseroth.dao" />
+    <context:component-scan base-package="bootcamp.joseroth.servicioclima" />
+    
+    <bean id="servicioclima" class="bootcamp.joseroth.servicioclima.ServicioClima" />
+   
+    <bean id="atmosferadao" class="bootcamp.joseroth.dao.AtmosferaDAO" />
+    <bean id="vientodao" class="bootcamp.joseroth.dao.VientoDAO" />
+    <bean id="ubicaciondao" class="bootcamp.joseroth.dao.UbicacionDAO" />
+    <bean id="pronosticodao" class="bootcamp.joseroth.dao.PronosticoDAO" />
+    <bean id="pronosticoextendidodao" class="bootcamp.joseroth.dao.PronosticoExtendidoDAO" />
+    
+    <bean id="conexion" class="bootcamp.joseroth.conexion.Conexion" />
+    
+    <bean id="sqldatamanipulation" class="bootcamp.joseroth.servicios.SQLDataManipulation" />
+    <bean id="serviciobd" class="bootcamp.joseroth.servicios.ServicioBD" />
+    <bean id="utils" class="bootcamp.joseroth.servicios.Utils" />
+        
 </beans>

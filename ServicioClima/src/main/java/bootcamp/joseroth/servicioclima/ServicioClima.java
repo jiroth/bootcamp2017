@@ -9,7 +9,6 @@ import bootcamp.joseroth.builders.*;
 import bootcamp.joseroth.dao.*;
 import bootcamp.joseroth.modelos.*;
 import java.util.ArrayList;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -22,10 +21,7 @@ public class ServicioClima {
      */
     public static void main(String[] args) {
         
-        @Autowired
-        ClimaDAO atmosferaDAO;
-        
-        
+        ClimaDAO atmosferaDAO = new AtmosferaDAO(); 
         ClimaDAO ubicacionDAO = new UbicacionDAO();
         ClimaDAO vientoDAO = new VientoDAO();
         ClimaDAO pronosticoDAO = new PronosticoDAO();
@@ -85,5 +81,6 @@ public class ServicioClima {
         p.setViento(v);
 
         System.out.println(p.toString());
+        
     }
 }

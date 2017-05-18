@@ -11,13 +11,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author José Ignacio Roth
  */
-@Repository
 public class AtmosferaDAO extends SQLDataManipulation implements ClimaDAO {
     
     @Override

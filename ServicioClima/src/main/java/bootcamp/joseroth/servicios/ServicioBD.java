@@ -8,6 +8,7 @@ package bootcamp.joseroth.servicios;
 import bootcamp.joseroth.conexion.Conexion;
 import java.sql.SQLException;
 import java.sql.Statement;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -15,10 +16,13 @@ import java.sql.Statement;
  */
 public class ServicioBD {
     
+    @Autowired
+    Conexion conexion;
+    
     public Statement abrirConexion() {
         Statement st = null;
         try {
-            st = Conexion.getInstance().createStatement();
+            st = conexion.getInstance().createStatement();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -27,7 +31,7 @@ public class ServicioBD {
     
     public void cerrarConexion() {
         try {
-            Conexion.delInstance();
+            conexion.closeConnection();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
