@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author José Ignacio Roth
  */
 public class ServicioBD {
-    
     @Autowired
     Conexion conexion;
     

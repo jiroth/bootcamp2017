@@ -1,30 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:c="http://www.springframework.org/schema/c"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:flow="http://www.springframework.org/schema/webflow-config"
-       xmlns:jee="http://www.springframework.org/schema/jee"
-       xmlns:jms="http://www.springframework.org/schema/jms"
-       xmlns:lang="http://www.springframework.org/schema/lang"
-       xmlns:osgi="http://www.springframework.org/schema/osgi"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
-          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
-          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
-          http://www.springframework.org/schema/webflow-config http://www.springframework.org/schema/webflow-config/spring-webflow-config-2.0.xsd
-          http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.3.xsd
-          http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-4.3.xsd
-          http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-4.3.xsd
-          http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi-1.2.xsd
-          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
-          http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd
-">
-    
     <context:component-scan base-package="bootcamp.joseroth.conexion" />
     <context:component-scan base-package="bootcamp.joseroth.modelos" />
     <context:component-scan base-package="bootcamp.joseroth.servicios" />
@@ -39,7 +18,15 @@
     <bean id="pronosticodao" class="bootcamp.joseroth.dao.PronosticoDAO" />
     <bean id="pronosticoextendidodao" class="bootcamp.joseroth.dao.PronosticoExtendidoDAO" />
     
-    <bean id="conexion" class="bootcamp.joseroth.conexion.Conexion" />
+    <bean id="conexion" class="bootcamp.joseroth.conexion.Conexion">
+        <!--
+        <property name="URL" value="jdbc:mysql://localhost:3306/"/>
+        <property name="DB" ref="ServicioClima"/>
+        <property name="USESSL" value="?&useSSL=false"/>
+        <property name="USUARIO" value="root"/>
+        <property name="PASSWORD" value="1234"/>
+        -->
+    </bean>
     
     <bean id="sqldatamanipulation" class="bootcamp.joseroth.servicios.SQLDataManipulation" />
     <bean id="serviciobd" class="bootcamp.joseroth.servicios.ServicioBD" />

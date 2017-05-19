@@ -10,6 +10,7 @@ import bootcamp.joseroth.dao.*;
 import bootcamp.joseroth.modelos.*;
 import java.util.ArrayList;
 
+
 /**
  *
  * @author José Ignacio Roth
@@ -20,6 +21,7 @@ public class ServicioClima {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        
         
         ClimaDAO atmosferaDAO = new AtmosferaDAO(); 
         ClimaDAO ubicacionDAO = new UbicacionDAO();
@@ -81,6 +83,7 @@ public class ServicioClima {
         p.setViento(v);
 
         System.out.println(p.toString());
+
         
     }
 }

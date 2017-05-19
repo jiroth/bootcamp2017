@@ -15,18 +15,14 @@ import java.sql.SQLException;
  */
 public class Conexion {
 
-    private final String URL = "jdbc:mysql://localhost:3306/";
-    private final String DB = "ServicioClima";
-    private final String USESSL = "?&useSSL=false";
-    private final String USUARIO = "root";
-    private final String PASSWORD = "1234";
+    private String URL = "jdbc:mysql://localhost:3306/";
+    private String DB = "ServicioClima";
+    private String USESSL = "?&useSSL=false";
+    private String USUARIO = "root";
+    private String PASSWORD = "1234";
     private Connection instance;
     
-    
     public Conexion() {
-    }
-
-    public Connection getInstance() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             instance = DriverManager.getConnection(URL + DB + USESSL, USUARIO, PASSWORD);
@@ -35,6 +31,9 @@ public class Conexion {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public Connection getInstance() {
         return instance;
     }
        
