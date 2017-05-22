@@ -5,29 +5,37 @@
  */
 package bootcamp.joseroth.servicios;
 
+import bootcamp.joseroth.conexion.Conexion;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author José Ignacio Roth
  */
-public class SQLDataManipulation {
-    protected ServicioBD sBD = new ServicioBD();
-    protected Statement st;
+@Component
+public abstract class OperacionesClimaDAO {
     
+    @Autowired
+    protected Conexion conexion;
+
+    protected Statement st;
+
     protected boolean registrar(String sql) {
         boolean registrado = false;
         try {
-            st = sBD.abrirConexion();
+            conexion.abrirConexion();
+            st = conexion.getInstance().createStatement();
             st.executeUpdate(sql);
             registrado = true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {
             st = null;
-            sBD.cerrarConexion();
+            conexion.cerrarConexion();
         }
         return registrado;
     }
@@ -35,7 +43,8 @@ public class SQLDataManipulation {
     protected ResultSet obtener(String sql) {
         ResultSet resultado = null;
         try {
-            st = sBD.abrirConexion();
+            conexion.abrirConexion();
+            st = conexion.getInstance().createStatement();
             resultado = st.executeQuery(sql);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -55,7 +64,7 @@ public class SQLDataManipulation {
             }
         }
         st = null;
-        sBD.cerrarConexion();
+        conexion.cerrarConexion();
         return id;
     }
 }

@@ -35,24 +35,22 @@ public class ConexionTest {
     public static void tearDownClass() throws SQLException {
         h2.close();
     }
-
-    @Test
-    public void testConectar() throws SQLException {
-        System.out.println("conectar");
+    
+    @Test 
+    public void test01AbrirConexion() throws SQLException, ClassNotFoundException {
         h2 = DriverManager.getConnection(url, user, pwds);
         assertNotNull(h2);
         assertFalse(h2.isClosed());
     }
 
     @Test
-    public void testDesconectar() {
-        System.out.println("desconectar");
+    public void test02CerrarConexion() {
         try {
-            h2 = DriverManager.getConnection(url, user, pwds);
             h2.close();
             assertTrue(true);
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
+            fail("No se pudo cerrar la conexión.");
         }
     }
 }

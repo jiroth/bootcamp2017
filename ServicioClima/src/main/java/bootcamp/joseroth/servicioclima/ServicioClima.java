@@ -9,31 +9,37 @@ import bootcamp.joseroth.builders.*;
 import bootcamp.joseroth.dao.*;
 import bootcamp.joseroth.modelos.*;
 import java.util.ArrayList;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author José Ignacio Roth
  */
+@Component
 public class ServicioClima {
+    
+    @Autowired
+    private static ClimaDAO<Ubicacion> ubicacionDAO;
+    @Autowired
+    private static ClimaDAO<Atmosfera> atmosferaDAO;
+    @Autowired
+    private static ClimaDAO<Viento> vientoDAO;
+    @Autowired
+    private static ClimaDAO<Pronostico> pronosticoDAO;
+    @Autowired
+    private static ClimaDAO pronosticoExtendidoDAO;    
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
-        
-        ClimaDAO atmosferaDAO = new AtmosferaDAO(); 
-        ClimaDAO ubicacionDAO = new UbicacionDAO();
-        ClimaDAO vientoDAO = new VientoDAO();
-        ClimaDAO pronosticoDAO = new PronosticoDAO();
-        ClimaDAO pronosticoExtendidoDAO = new PronosticoExtendidoDAO();
 
         //DATOS HARDCODEADOS
         Ubicacion ubicacion = new Ubicacion("Cordoba", "Argentina");
         int idUbicacion = ubicacionDAO.insertar(ubicacion);
         ubicacion.setIdUbicacion(idUbicacion);
-        
+
         Atmosfera atmosfera = new Atmosfera(59, 18);
         int idAtmosfera = atmosferaDAO.insertar(atmosfera);
         atmosfera.setIdAtmosfera(idAtmosfera);
@@ -68,22 +74,21 @@ public class ServicioClima {
         pronostico.setPronositicoExtendido(pronosticoExtendido);
 
         //SE TRAEN LOS DATOS DE LA BASE
-        Pronostico p = (Pronostico) pronosticoDAO.select(idPronostico);
+        Pronostico p = pronosticoDAO.select(idPronostico);
 
         ArrayList<PronosticoExtendido> pe = (ArrayList<PronosticoExtendido>) pronosticoExtendidoDAO.select(p.getIdPronostico());
         p.setPronositicoExtendido(pe);
 
-        Ubicacion u = (Ubicacion) ubicacionDAO.select(p.getUbicacion().getIdUbicacion());
+        Ubicacion u = ubicacionDAO.select(p.getUbicacion().getIdUbicacion());
         p.setUbicacion(u);
 
-        Atmosfera a = (Atmosfera) atmosferaDAO.select(p.getAtmosfera().getIdAtmosfera());
+        Atmosfera a = atmosferaDAO.select(p.getAtmosfera().getIdAtmosfera());
         p.setAtmosfera(a);
 
-        Viento v = (Viento) vientoDAO.select(p.getViento().getIdViento());
+        Viento v = vientoDAO.select(p.getViento().getIdViento());
         p.setViento(v);
 
         System.out.println(p.toString());
 
-        
     }
 }

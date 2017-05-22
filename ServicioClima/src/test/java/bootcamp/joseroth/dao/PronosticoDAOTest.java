@@ -10,7 +10,6 @@ import bootcamp.joseroth.modelos.Atmosfera;
 import bootcamp.joseroth.modelos.Pronostico;
 import bootcamp.joseroth.modelos.Ubicacion;
 import bootcamp.joseroth.modelos.Viento;
-import bootcamp.joseroth.servicios.ServicioBD;
 import bootcamp.joseroth.servicios.Utils;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -38,7 +37,6 @@ public class PronosticoDAOTest {
     private static String user = "root";
     private static String pwds = "1234";
     private static Statement st;
-    private static ServicioBD sBD;
     
     public PronosticoDAOTest() {
     }
@@ -47,7 +45,6 @@ public class PronosticoDAOTest {
     public static void setUpClass() throws ClassNotFoundException, SQLException {
         Class.forName("org.h2.Driver");
         h2 = DriverManager.getConnection(url, user, pwds);
-        sBD = new ServicioBD();
         Statement a = h2.createStatement();
         Statement v = h2.createStatement();
         Statement u = h2.createStatement();

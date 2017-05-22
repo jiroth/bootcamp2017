@@ -8,40 +8,40 @@ package bootcamp.joseroth.conexion;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author José Ignacio Roth
  */
+@Component
 public class Conexion {
 
-    private String URL = "jdbc:mysql://localhost:3306/";
-    private String DB = "ServicioClima";
-    private String USESSL = "?&useSSL=false";
-    private String USUARIO = "root";
-    private String PASSWORD = "1234";
-    private Connection instance;
+    private static final String URL = "jdbc:mysql://localhost:3306/";
+    private static final String DB = "ServicioClima";
+    private static final String USESSL = "?&useSSL=false";
+    private static final String USUARIO = "root";
+    private static final String PASSWORD = "1234";
+    private Connection conexion;
     
-    public Conexion() {
+    public Connection getInstance() {
+        return conexion;
+    }
+    
+    public void abrirConexion() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            instance = DriverManager.getConnection(URL + DB + USESSL, USUARIO, PASSWORD);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+            conexion = DriverManager.getConnection(URL + DB + USESSL, USUARIO, PASSWORD);
+        } catch (SQLException | ClassNotFoundException e) {
+            System.out.println(e.getMessage());
         }
     }
-
-    public Connection getInstance() {
-        return instance;
-    }
-       
-    public void closeConnection() {
+    
+    public void cerrarConexion() {
         try {
-            instance.close();
+            conexion.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 }

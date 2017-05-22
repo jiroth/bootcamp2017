@@ -7,24 +7,26 @@ package bootcamp.joseroth.dao;
 
 import bootcamp.joseroth.builders.PronosticoExtendidoBuilder;
 import bootcamp.joseroth.modelos.PronosticoExtendido;
-import bootcamp.joseroth.servicios.SQLDataManipulation;
+import bootcamp.joseroth.servicios.OperacionesClimaDAO;
 import bootcamp.joseroth.servicios.Utils;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author José Ignacio Roth
  */
-public class PronosticoExtendidoDAO extends SQLDataManipulation implements ClimaDAO {
+@Repository
+public class PronosticoExtendidoDAO extends OperacionesClimaDAO implements ClimaDAO {
+    Utils utils = new Utils();
 
     @Override
     public int insertar(Object o) {
         int id = 0;
-        Utils utils = new Utils();
         PronosticoExtendido pe = null;
         try {
             pe = (PronosticoExtendido) o;
@@ -67,8 +69,16 @@ public class PronosticoExtendidoDAO extends SQLDataManipulation implements Clima
             }
         }
         super.st = null;
-        super.sBD.cerrarConexion();
+        super.conexion.cerrarConexion();
         return lista;
+    }
+    
+    @Override
+    public void update(int i) {
+    }
+
+    @Override
+    public void delete(int i) {
     }
 
 }

@@ -6,17 +6,19 @@
 package bootcamp.joseroth.dao;
 
 import bootcamp.joseroth.modelos.Viento;
-import bootcamp.joseroth.servicios.SQLDataManipulation;
+import bootcamp.joseroth.servicios.OperacionesClimaDAO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author José Ignacio Roth
  */
-public class VientoDAO extends SQLDataManipulation implements ClimaDAO {
+@Repository
+public class VientoDAO extends OperacionesClimaDAO implements ClimaDAO {
 
     @Override
     public int insertar(Object o) {
@@ -58,8 +60,16 @@ public class VientoDAO extends SQLDataManipulation implements ClimaDAO {
             }
         }
         super.st = null;
-        super.sBD.cerrarConexion();
+        super.conexion.cerrarConexion();
         return v;
     }
     
+    @Override
+    public void update(int i) {
+    }
+
+    @Override
+    public void delete(int i) {
+    }
+
 }
