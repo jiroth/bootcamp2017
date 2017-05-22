@@ -22,21 +22,29 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class PronosticoExtendidoDAO extends OperacionesClimaDAO implements ClimaDAO {
-    Utils utils = new Utils();
 
     @Override
     public int insertar(Object o) {
+        Utils utils = new Utils();
         int id = 0;
+        ArrayList<PronosticoExtendido> lpe = null;
         PronosticoExtendido pe = null;
         try {
-            pe = (PronosticoExtendido) o;
+            lpe = (ArrayList<PronosticoExtendido>) o;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        String sql = "insert into PronosticoExtendido (fecha, dia, estado, minima, maxima, idPronostico) values('"
+        boolean b = false;
+        for (int i = 0; i < lpe.size(); i++) {
+            pe = lpe.get(i);
+            String sql = "insert into PronosticoExtendido (fecha, dia, estado, minima, maxima, idPronostico) values('"
                 + utils.formatoFecha(pe.getFecha()) + "', '" + pe.getDia() + "', '" + pe.getEstado() + "', " + pe.getMinima() + ", "
                 + pe.getMaxima() + ", " + pe.getIdPronostico() + ");";
-        if (super.registrar(sql)) {
+            if (super.registrar(sql)) {
+                b = true;
+            }
+        }
+        if(b) {
             try {
                 id = super.getId("select max(idPronosticoExtendido) as id from PronosticoExtendido;");
             } catch (SQLException ex) {

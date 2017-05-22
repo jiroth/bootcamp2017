@@ -24,10 +24,10 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class PronosticoDAO extends OperacionesClimaDAO implements ClimaDAO {
-    private Utils utils = new Utils();
     
     @Override
     public int insertar(Object o) {
+        Utils utils = new Utils();
         int id = 0;
         Pronostico p = null;
         try {

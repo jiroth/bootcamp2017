@@ -10,6 +10,9 @@ import bootcamp.joseroth.dao.*;
 import bootcamp.joseroth.modelos.*;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,23 +21,33 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ServicioClima {
-    
+
     @Autowired
-    private static ClimaDAO<Ubicacion> ubicacionDAO;
+    @Qualifier("ubicacionDAO")
+    private ClimaDAO<Ubicacion> ubicacionDAO;
     @Autowired
-    private static ClimaDAO<Atmosfera> atmosferaDAO;
+    @Qualifier("atmosferaDAO")
+    private ClimaDAO<Atmosfera> atmosferaDAO;
     @Autowired
-    private static ClimaDAO<Viento> vientoDAO;
+    @Qualifier("vientoDAO")
+    private ClimaDAO<Viento> vientoDAO;
     @Autowired
-    private static ClimaDAO<Pronostico> pronosticoDAO;
+    @Qualifier("pronosticoDAO")
+    private ClimaDAO<Pronostico> pronosticoDAO;
     @Autowired
-    private static ClimaDAO pronosticoExtendidoDAO;    
+    @Qualifier("pronosticoExtendidoDAO")
+    private ClimaDAO<ArrayList<PronosticoExtendido>> pronosticoExtendidoDAO;
+
+    public static void main(String[] args) {
+        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        ServicioClima p = context.getBean(ServicioClima.class);
+        p.start(args);
+    }
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-
+    public void start(String[] args) {
         //DATOS HARDCODEADOS
         Ubicacion ubicacion = new Ubicacion("Cordoba", "Argentina");
         int idUbicacion = ubicacionDAO.insertar(ubicacion);
@@ -67,16 +80,16 @@ public class ServicioClima {
         };
         ArrayList<PronosticoExtendido> pronosticoExtendido = new ArrayList<>();
         for (PronosticoExtendido dia : dias) {
-            int idPronosticoExtendido = pronosticoExtendidoDAO.insertar(dia);
-            dia.setIdPronosticoExtendido(idPronosticoExtendido);
             pronosticoExtendido.add(dia);
         }
+        int maxIdPronosticoExtendido = pronosticoExtendidoDAO.insertar(pronosticoExtendido);
         pronostico.setPronositicoExtendido(pronosticoExtendido);
 
+        
         //SE TRAEN LOS DATOS DE LA BASE
         Pronostico p = pronosticoDAO.select(idPronostico);
 
-        ArrayList<PronosticoExtendido> pe = (ArrayList<PronosticoExtendido>) pronosticoExtendidoDAO.select(p.getIdPronostico());
+        ArrayList<PronosticoExtendido> pe = pronosticoExtendidoDAO.select(p.getIdPronostico());
         p.setPronositicoExtendido(pe);
 
         Ubicacion u = ubicacionDAO.select(p.getUbicacion().getIdUbicacion());
@@ -89,6 +102,5 @@ public class ServicioClima {
         p.setViento(v);
 
         System.out.println(p.toString());
-
     }
 }
