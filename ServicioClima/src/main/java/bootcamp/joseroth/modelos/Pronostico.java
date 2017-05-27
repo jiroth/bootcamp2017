@@ -5,6 +5,7 @@
  */
 package bootcamp.joseroth.modelos;
 
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -96,13 +97,6 @@ public class Pronostico {
     }
     
     public Pronostico(){
-    }
-
-    @Override
-    public String toString() {
-        return "Pronostico: \nFecha: " + fecha + "\nUbicacion: " + ubicacion + "\nTemperatura: " + temperatura 
-                + "\nEstado: " + estado + "\nAtmósfera: " + atmosfera + "\nViento: " + viento + "\nPronósitico Extendido: " 
-                + pronositicoExtendido;
     }
     
 }

@@ -5,7 +5,6 @@
  */
 package bootcamp.joseroth.modelos;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -20,7 +19,7 @@ public class PronosticoExtendido {
     private int minima;
     private int maxima;
     private int idPronostico;
-    static final private SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
+
 
     public Date getFecha() {
         return fecha;
@@ -87,11 +86,6 @@ public class PronosticoExtendido {
     }
     
     public PronosticoExtendido(){
-    }
-
-    @Override
-    public String toString() {
-        return "\nFecha: " + formatter.format(fecha) + "\nDía: " + dia + "\nEstado: " + estado + "\nMínima: " + minima + "\nMáxima: " + maxima;
     }
     
 }

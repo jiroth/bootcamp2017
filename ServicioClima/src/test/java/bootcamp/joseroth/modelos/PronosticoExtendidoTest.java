@@ -5,6 +5,7 @@
  */
 package bootcamp.joseroth.modelos;
 
+import bootcamp.joseroth.builders.PronosticoExtendidoBuilder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,33 +22,23 @@ import static org.junit.Assert.*;
 public class PronosticoExtendidoTest {
     
     private static PronosticoExtendido pe;
-    private static SimpleDateFormat formatter;
-    private static String s;
-    private static Date fecha;
     
     public PronosticoExtendidoTest() {
     }
     
     @BeforeClass
     public static void setUpClass() throws ParseException {
-        s = "21 Apr 2017";
-        formatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
-        fecha = formatter.parse(s);
-        pe = new PronosticoExtendido(fecha, "Mon", "Partly Cloudy", 58, 64);
+        pe = new PronosticoExtendidoBuilder().withFecha(new SimpleDateFormat("dd MMM yyyy", Locale.US).parse("21 Apr 2017")).withDia("Mon").withEstado("Partly Cloudy").withMinima(58).withMaxima(64).build();
     }
     
     @AfterClass
     public static void tearDownClass() {
         pe = null;
-        formatter = null;
-        s = "";
-        fecha = null;
     }
 
     @Test
     public void testSetGetFecha() throws ParseException {
-        System.out.println("set y get Fecha");
-        Date expResult = fecha;
+        Date expResult = new SimpleDateFormat("dd MMM yyyy", Locale.US).parse("21 Apr 2017");
         pe.setFecha(expResult);
         Date result = pe.getFecha();
         assertEquals(expResult, result);
@@ -55,7 +46,6 @@ public class PronosticoExtendidoTest {
 
     @Test
     public void testSetGetDia() {
-        System.out.println("set y get Dia");
         String expResult = "Mon";
         pe.setDia(expResult);
         String result = pe.getDia();
@@ -64,7 +54,6 @@ public class PronosticoExtendidoTest {
 
     @Test
     public void testSetGetEstado() {
-        System.out.println("set y get Estado");
         String expResult = "Partly Cloudy";
         pe.setEstado(expResult);
         String result = pe.getEstado();
@@ -73,7 +62,6 @@ public class PronosticoExtendidoTest {
 
     @Test
     public void testSetGetMinima() {
-        System.out.println("set y get Minima");
         int expResult = 58;
         pe.setMinima(expResult);
         int result = pe.getMinima();
@@ -82,7 +70,6 @@ public class PronosticoExtendidoTest {
 
     @Test
     public void testSetGetMaxima() {
-        System.out.println("set y get Maxima");
         int expResult = 64;
         pe.setMaxima(expResult);
         int result = pe.getMaxima();
@@ -91,7 +78,6 @@ public class PronosticoExtendidoTest {
 
     @Test
     public void testSetGetIdPronosticoExtendido() {
-        System.out.println("set y get IdPronosticoExtendido");
         int expResult = 1;
         pe.setIdPronosticoExtendido(expResult);
         int result = pe.getIdPronosticoExtendido();
@@ -100,18 +86,9 @@ public class PronosticoExtendidoTest {
 
     @Test
     public void testSetGetIdPronostico() {
-        System.out.println("set y get IdPronostico");
         int expResult = 2;
         pe.setIdPronostico(expResult);
         int result = pe.getIdPronostico();
-        assertEquals(expResult, result);
-    }
-
-    @Test
-    public void testToString() {
-        System.out.println("toString");
-        String expResult = "\nFecha: 21 abr 2017\nDía: Mon\nEstado: Partly Cloudy\nMínima: 58\nMáxima: 64";
-        String result = pe.toString();
         assertEquals(expResult, result);
     }
     

@@ -10,10 +10,10 @@ import bootcamp.joseroth.modelos.Atmosfera;
 import bootcamp.joseroth.modelos.Pronostico;
 import bootcamp.joseroth.modelos.Ubicacion;
 import bootcamp.joseroth.modelos.Viento;
-import bootcamp.joseroth.servicios.OperacionesClimaDAO;
-import bootcamp.joseroth.servicios.Utils;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.stereotype.Repository;
@@ -24,34 +24,33 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class PronosticoDAO extends OperacionesClimaDAO implements ClimaDAO {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US);
     
     @Override
-    public int insertar(Object o) {
-        Utils utils = new Utils();
-        int id = 0;
+    public int insert(Object o) {
         Pronostico p = null;
         try {
             p = (Pronostico) o;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         String sql = "insert into pronostico(fecha, idUbicacion, temperatura, estado, idAtmosfera, idViento) "
-                + "values('" + utils.formatoFecha(p.getFecha()) + "', " + p.getUbicacion().getIdUbicacion() + ", " + p.getTemperatura() + ", '"
+                + "values('" + sdf.format(p.getFecha()) + "', " + p.getUbicacion().getIdUbicacion() + ", " + p.getTemperatura() + ", '"
                 + p.getEstado() + "', " + p.getAtmosfera().getIdAtmosfera() + ", " + p.getViento().getIdViento() + ");";
-        if (super.registrar(sql)) {
-            try {
-                id = super.getId("select max(idPronostico) as id from pronostico;");
-            } catch (SQLException ex) {
-                Logger.getLogger(PronosticoDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        int id = 0;
+        try {
+            super.registrarActualizar(sql);
+            id = super.getId("select max(idPronostico) as id from pronostico;");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
         return id;
     }
 
     @Override
-    public Object select(int i) {
+    public Object select(Object idUbicacion) {
         Pronostico p = new Pronostico();
-        String sql = "select * from Pronostico where idPronostico = " + i;
+        String sql = "select * from Pronostico where idUbicacion = " + idUbicacion;
         ResultSet rs = super.obtener(sql);
         if (rs != null) {
             try {
@@ -74,11 +73,17 @@ public class PronosticoDAO extends OperacionesClimaDAO implements ClimaDAO {
     }
     
     @Override
-    public void update(int i) {
-    }
-
-    @Override
-    public void delete(int i) {
+    public void update(Object o) {
+        Pronostico p = null;
+        try {
+            p = (Pronostico) o;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String sql = "update pronostico set fecha = '" + sdf.format(p.getFecha()) + "', temperatura = " 
+                + p.getTemperatura() + ", estado = '" + p.getEstado() + "', idAtmosfera = " + p.getAtmosfera().getIdAtmosfera() 
+                + ", idViento = " + p.getViento().getIdViento() + " where idUbicacion = " + p.getUbicacion().getIdUbicacion();
+        super.registrarActualizar(sql);
     }
 
 }

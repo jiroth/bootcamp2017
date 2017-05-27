@@ -6,7 +6,6 @@
 package bootcamp.joseroth.builders;
 
 import bootcamp.joseroth.modelos.*;
-import bootcamp.joseroth.servicios.Utils;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -29,17 +28,8 @@ public class PronosticoBuilder {
         return this;
     }
     
-    public PronosticoBuilder withFecha(Object o) {
-        Utils utils = new Utils();
-        if(o instanceof Date) {
-            try {
-                this.fecha = (Date)o;
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        } else if(o instanceof String) {
-            this.fecha = utils.textoAfecha((String)o, true);
-        }
+    public PronosticoBuilder withFecha(Date fecha) {
+        this.fecha = fecha;
         return this;
     }
     

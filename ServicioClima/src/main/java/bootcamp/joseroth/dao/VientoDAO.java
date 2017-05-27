@@ -6,7 +6,6 @@
 package bootcamp.joseroth.dao;
 
 import bootcamp.joseroth.modelos.Viento;
-import bootcamp.joseroth.servicios.OperacionesClimaDAO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -21,29 +20,28 @@ import org.springframework.stereotype.Repository;
 public class VientoDAO extends OperacionesClimaDAO implements ClimaDAO {
 
     @Override
-    public int insertar(Object o) {
-        int id = 0;
+    public int insert(Object o) {
         Viento v = null;
         try {
             v = (Viento)o;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         String sql = "insert into Viento (direccion, velocidad) values (" + v.getDireccion() + ", " + v.getVelocidad() + ");";
-        if (super.registrar(sql)) {
-            try {
-                id = super.getId("select max(idViento) as id from viento;");
-            } catch (SQLException ex) {
-                Logger.getLogger(VientoDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        int id = 0;
+        try {
+            super.registrarActualizar(sql);
+            id = super.getId("select max(idViento) as id from viento;");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
         return id;
     }
 
     @Override
-    public Object select(int i) {
+    public Object select(Object idViento) {
         Viento v = new Viento();
-        String sql = "select * from Viento where idViento = " + i;
+        String sql = "select * from Viento where idViento = " + idViento;
         ResultSet resultado = super.obtener(sql);
         if (resultado != null) {
             try {
@@ -65,11 +63,15 @@ public class VientoDAO extends OperacionesClimaDAO implements ClimaDAO {
     }
     
     @Override
-    public void update(int i) {
-    }
-
-    @Override
-    public void delete(int i) {
+    public void update(Object o) {
+        Viento v = null;
+        try {
+            v = (Viento)o;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        String sql = "update viento set direccion = " + v.getDireccion() + ", velocidad = " + v.getVelocidad() + " where idViento = " + v.getIdViento();
+        super.registrarActualizar(sql);
     }
 
 }

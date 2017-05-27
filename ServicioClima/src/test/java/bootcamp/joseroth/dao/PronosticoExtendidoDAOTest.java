@@ -7,12 +7,16 @@ package bootcamp.joseroth.dao;
 
 import bootcamp.joseroth.builders.PronosticoExtendidoBuilder;
 import bootcamp.joseroth.modelos.PronosticoExtendido;
-import bootcamp.joseroth.servicios.Utils;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -88,10 +92,9 @@ public class PronosticoExtendidoDAOTest {
     }
 
     @Test
-    public void testSelect() throws SQLException {
+    public void testSelect() throws SQLException, ParseException {
         String sql = "select * from PronosticoExtendido";
-        Utils utils = new Utils();
-        PronosticoExtendido pe = new PronosticoExtendido();
+        PronosticoExtendido pe = null;
         ResultSet rs = st.executeQuery(sql);;
         if (rs != null) {
             if (rs.next()) {
@@ -105,7 +108,7 @@ public class PronosticoExtendidoDAOTest {
             }
         }
         assertEquals(1, pe.getIdPronosticoExtendido());
-        assertEquals(utils.textoAfecha("21 Apr 2017", false), pe.getFecha());
+        assertEquals(new SimpleDateFormat("dd MMM yyyy", Locale.US).parse("21 Apr 2017"), pe.getFecha());
         assertEquals("Fri", pe.getDia());
         assertEquals("Partly Cloudy", pe.getEstado());
         assertEquals(58, pe.getMinima());

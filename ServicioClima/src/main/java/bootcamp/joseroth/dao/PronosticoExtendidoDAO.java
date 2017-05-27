@@ -7,11 +7,11 @@ package bootcamp.joseroth.dao;
 
 import bootcamp.joseroth.builders.PronosticoExtendidoBuilder;
 import bootcamp.joseroth.modelos.PronosticoExtendido;
-import bootcamp.joseroth.servicios.OperacionesClimaDAO;
-import bootcamp.joseroth.servicios.Utils;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.stereotype.Repository;
@@ -23,41 +23,37 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class PronosticoExtendidoDAO extends OperacionesClimaDAO implements ClimaDAO {
 
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+
     @Override
-    public int insertar(Object o) {
-        Utils utils = new Utils();
-        int id = 0;
+    public int insert(Object o) {
         ArrayList<PronosticoExtendido> lpe = null;
         PronosticoExtendido pe = null;
         try {
             lpe = (ArrayList<PronosticoExtendido>) o;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
-        boolean b = false;
+        int id = 0;
         for (int i = 0; i < lpe.size(); i++) {
             pe = lpe.get(i);
             String sql = "insert into PronosticoExtendido (fecha, dia, estado, minima, maxima, idPronostico) values('"
-                + utils.formatoFecha(pe.getFecha()) + "', '" + pe.getDia() + "', '" + pe.getEstado() + "', " + pe.getMinima() + ", "
-                + pe.getMaxima() + ", " + pe.getIdPronostico() + ");";
-            if (super.registrar(sql)) {
-                b = true;
-            }
+                    + sdf.format(pe.getFecha()) + "', '" + pe.getDia() + "', '" + pe.getEstado() + "', " + pe.getMinima() + ", "
+                    + pe.getMaxima() + ", " + pe.getIdPronostico() + ");";
+            super.registrarActualizar(sql);
         }
-        if(b) {
-            try {
-                id = super.getId("select max(idPronosticoExtendido) as id from PronosticoExtendido;");
-            } catch (SQLException ex) {
-                Logger.getLogger(PronosticoExtendidoDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            id = super.getId("select max(idPronosticoExtendido) as id from PronosticoExtendido;");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
         return id;
     }
 
     @Override
-    public Object select(int i) {
+    public Object select(Object idPronostico) {
         ArrayList<PronosticoExtendido> lista = new ArrayList<>();
-        String sql = "select * from PronosticoExtendido where idPronostico = " + i;
+        String sql = "select * from PronosticoExtendido where idPronostico = " + idPronostico;
         ResultSet rs = super.obtener(sql);
         if (rs != null) {
             try {
@@ -80,13 +76,24 @@ public class PronosticoExtendidoDAO extends OperacionesClimaDAO implements Clima
         super.conexion.cerrarConexion();
         return lista;
     }
-    
-    @Override
-    public void update(int i) {
-    }
 
     @Override
-    public void delete(int i) {
+    public void update(Object o) {
+        ArrayList<PronosticoExtendido> lpe = null;
+        PronosticoExtendido pe = null;
+        try {
+            lpe = (ArrayList<PronosticoExtendido>) o;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        for (int i = 0; i < lpe.size(); i++) {
+            pe = lpe.get(i);
+            String sql = "update pronosticoextendido set fecha = '" + sdf.format(pe.getFecha())
+                    + "', dia = '" + pe.getDia() + "', estado = '" + pe.getEstado() + "', minima = " + pe.getMinima()
+                    + ", maxima = " + pe.getMaxima() + ", idPronostico = " + pe.getIdPronostico()
+                    + " where idPronosticoExtendido = " + pe.getIdPronosticoExtendido();
+            super.registrarActualizar(sql);
+        }
     }
 
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bootcamp.joseroth.servicios;
+package bootcamp.joseroth.dao;
 
 import bootcamp.joseroth.conexion.Conexion;
 import java.sql.ResultSet;
@@ -24,20 +24,17 @@ public abstract class OperacionesClimaDAO {
 
     protected Statement st;
 
-    protected boolean registrar(String sql) {
-        boolean registrado = false;
+    protected void registrarActualizar(String sql) {
         try {
             conexion.abrirConexion();
             st = conexion.getInstance().createStatement();
             st.executeUpdate(sql);
-            registrado = true;
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         } finally {
             st = null;
             conexion.cerrarConexion();
         }
-        return registrado;
     }
 
     protected ResultSet obtener(String sql) {

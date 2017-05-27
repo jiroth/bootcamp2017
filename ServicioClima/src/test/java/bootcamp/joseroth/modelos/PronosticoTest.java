@@ -5,6 +5,11 @@
  */
 package bootcamp.joseroth.modelos;
 
+import bootcamp.joseroth.builders.AtmosferaBuilder;
+import bootcamp.joseroth.builders.PronosticoBuilder;
+import bootcamp.joseroth.builders.PronosticoExtendidoBuilder;
+import bootcamp.joseroth.builders.UbicacionBuilder;
+import bootcamp.joseroth.builders.VientoBuilder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,9 +27,6 @@ import static org.junit.Assert.*;
 public class PronosticoTest {
 
     private static Pronostico p;
-    private static SimpleDateFormat formatter;
-    private static String s;
-    private static Date fecha;
     private static Ubicacion ubicacion;
     private static Atmosfera atmosfera;
     private static Viento viento;
@@ -35,25 +37,16 @@ public class PronosticoTest {
 
     @BeforeClass
     public static void setUpClass() throws ParseException {
-        s = "Fri, 21 Apr 2017 05:00 PM ART";
-        formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm aaa z", Locale.US);
-        fecha = formatter.parse(s);
-        ubicacion = new Ubicacion("Cordoba", "Argentina");
-        ubicacion.setIdUbicacion(1);
-        atmosfera = new Atmosfera(59, 18);
-        atmosfera.setIdAtmosfera(1);
-        viento = new Viento(203, 7);
-        viento.setIdViento(1);
-        p = new Pronostico(fecha, ubicacion, 64, "Cloudy", atmosfera, viento);
+        ubicacion = new UbicacionBuilder().withIdUbicacion(1).withCiudad("Córdoba").withPais("Argentina").build();
+        atmosfera = new AtmosferaBuilder().withIdAtmosfera(1).withHumedad(59).withVisibilidad(18).build();
+        viento = new VientoBuilder().withIdViento(1).withDireccion(203).withVelocidad(7).build();
+        p = new PronosticoBuilder().withFecha(new SimpleDateFormat("EEE, dd MMM yyyy HH:mm aaa z", Locale.US).parse("Fri, 26 May 2017 10:00 AM ART")).withEstado("Cloudy").withTemperatura(64).withAtmosfera(atmosfera).withViento(viento).withUbicacion(ubicacion).build();
         pronosticoExtendido = new ArrayList<>();
     }
 
     @AfterClass
     public static void tearDownClass() {
         p = null;
-        formatter = null;
-        s = "";
-        fecha = null;
         ubicacion = null;
         atmosfera = null;
         viento = null;
@@ -62,7 +55,6 @@ public class PronosticoTest {
 
     @Test
     public void testSetGetIdPronostico() {
-        System.out.println("set y get IdPronostico");
         int expResult = 1;
         p.setIdPronostico(expResult);
         int result = p.getIdPronostico();
@@ -70,17 +62,15 @@ public class PronosticoTest {
     }
 
     @Test
-    public void testSetGetFecha() {
-        System.out.println("set y get Fecha");
-        Date expResult = fecha;
-        p.setFecha(fecha);
+    public void testSetGetFecha() throws ParseException {
+        Date expResult = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm aaa z", Locale.US).parse("Fri, 26 May 2017 10:00 AM ART");
+        p.setFecha(expResult);
         Date result = p.getFecha();
         assertEquals(expResult, result);
     }
 
     @Test
     public void testSetGetUbicacion() {
-        System.out.println("set y get Ubicacion");
         Ubicacion expResult = ubicacion;
         p.setUbicacion(expResult);
         Ubicacion result = p.getUbicacion();
@@ -89,7 +79,6 @@ public class PronosticoTest {
 
     @Test
     public void testSetGetTemperatura() {
-        System.out.println("set y get Temperatura");
         int expResult = 64;
         p.setTemperatura(expResult);
         int result = p.getTemperatura();
@@ -98,7 +87,6 @@ public class PronosticoTest {
 
     @Test
     public void testSetGetEstado() {
-        System.out.println("set y get Estado");
         String expResult = "Cloudy";
         p.setEstado(expResult);
         String result = p.getEstado();
@@ -107,7 +95,6 @@ public class PronosticoTest {
 
     @Test
     public void testSetGetAtmosfera() {
-        System.out.println("set y get Atmosfera");
         Atmosfera expResult = atmosfera;
         p.setAtmosfera(atmosfera);
         Atmosfera result = p.getAtmosfera();
@@ -116,7 +103,6 @@ public class PronosticoTest {
 
     @Test
     public void testSetGetViento() {
-        System.out.println("set y get Viento");
         Viento expResult = viento;
         p.setViento(viento);
         Viento result = p.getViento();
@@ -125,36 +111,13 @@ public class PronosticoTest {
 
     @Test
     public void testSetGetPronositicoExtendido() throws ParseException {
-        System.out.println("set y get PronositicoExtendido");
         ArrayList<PronosticoExtendido> expResult = new ArrayList<>();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.US);
-        Date dia1 = sdf.parse("21 Apr 2017");
-        Date dia2 = sdf.parse("22 Apr 2017");
-        PronosticoExtendido pe1 = new PronosticoExtendido(dia1, "Fri", "Partly Cloudy", 58, 64);
-        PronosticoExtendido pe2 = new PronosticoExtendido(dia2, "Sat", "Partly Cloudy", 53, 67);
+        PronosticoExtendido pe1 = new PronosticoExtendidoBuilder().withFecha(new SimpleDateFormat("dd MMM yyyy", Locale.US).parse("21 Apr 2017")).withDia("Fri").withEstado("Partly Cloudy").withMinima(58).withMaxima(64).build();
+        PronosticoExtendido pe2 = new PronosticoExtendidoBuilder().withFecha(new SimpleDateFormat("dd MMM yyyy", Locale.US).parse("22 Apr 2017")).withDia("Sat").withEstado("Partly Cloudy").withMinima(53).withMaxima(67).build();
         expResult.add(pe1);
         expResult.add(pe2);              
         p.setPronositicoExtendido(expResult);
         ArrayList<PronosticoExtendido> result = p.getPronositicoExtendido();
-        assertEquals(expResult, result);
-    }
-
-    @Test
-    public void testToString() throws ParseException {
-        System.out.println("toString");
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.US);
-        Date dia1 = sdf.parse("21 Apr 2017");
-        Date dia2 = sdf.parse("22 Apr 2017");
-        PronosticoExtendido pe1 = new PronosticoExtendido(dia1, "Fri", "Partly Cloudy", 58, 64);
-        PronosticoExtendido pe2 = new PronosticoExtendido(dia2, "Sat", "Partly Cloudy", 53, 67);
-        pronosticoExtendido.add(pe1);
-        pronosticoExtendido.add(pe2);              
-        p.setPronositicoExtendido(pronosticoExtendido);
-        String expResult = "Pronostico: \nFecha: Fri Apr 21 05:00:00 ART 2017\nUbicacion: Cordoba, Argentina\nTemperatura: 64\n"
-                + "Estado: Cloudy\nAtmósfera: Humedad: 59, Visibilidad: 18.0\nViento: Direccion: 203, Velocidad: 7\n"
-                + "Pronósitico Extendido: [\nFecha: 21 abr 2017\nDía: Fri\nEstado: Partly Cloudy\nMínima: 58\nMáxima: 64, "
-                + "\nFecha: 22 abr 2017\nDía: Sat\nEstado: Partly Cloudy\nMínima: 53\nMáxima: 67]";
-        String result = p.toString();
         assertEquals(expResult, result);
     }
 

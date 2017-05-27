@@ -10,13 +10,14 @@ import bootcamp.joseroth.modelos.Atmosfera;
 import bootcamp.joseroth.modelos.Pronostico;
 import bootcamp.joseroth.modelos.Ubicacion;
 import bootcamp.joseroth.modelos.Viento;
-import bootcamp.joseroth.servicios.Utils;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -90,7 +91,6 @@ public class PronosticoDAOTest {
 
     @Test
     public void testSelect() throws SQLException, ParseException {
-        Utils utils = new Utils();
         String sql = "select * from Pronostico"; 
         ResultSet rs = st.executeQuery(sql);
         Pronostico p = null;
@@ -106,7 +106,7 @@ public class PronosticoDAOTest {
             }
         }
         assertEquals(1, p.getIdPronostico());
-        assertEquals(utils.textoAfecha("21 Apr 2017", false), p.getFecha());
+        assertEquals(new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse("2017-04-21"), p.getFecha());
         assertEquals(1, p.getUbicacion().getIdUbicacion());
         assertEquals(70, p.getTemperatura());
         assertEquals("Nublado", p.getEstado());

@@ -6,7 +6,6 @@
 package bootcamp.joseroth.dao;
 
 import bootcamp.joseroth.modelos.Atmosfera;
-import bootcamp.joseroth.servicios.OperacionesClimaDAO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -21,29 +20,28 @@ import org.springframework.stereotype.Repository;
 public class AtmosferaDAO extends OperacionesClimaDAO implements ClimaDAO {
     
     @Override
-    public int insertar(Object o) {
-        int id = 0;
+    public int insert(Object o) {
         Atmosfera a = null;
         try {
             a = (Atmosfera)o;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         String sql = "insert into Atmosfera (humedad, visibilidad) values (" + a.getHumedad() + ", " + a.getVisibilidad() + ");";
-        if (super.registrar(sql)) {
-            try {
-                id = super.getId("select max(idAtmosfera) as id from atmosfera;");
-            } catch (SQLException ex) {
-                Logger.getLogger(AtmosferaDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        int id = 0;
+        try {
+            super.registrarActualizar(sql);
+            id = super.getId("select max(idAtmosfera) as id from atmosfera;");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
         return id;
     }
 
     @Override
-    public Atmosfera select(int i) {
+    public Object select(Object idAtmosfera) {
         Atmosfera a = new Atmosfera();
-        String sql = "select * from Atmosfera where idAtmosfera = " + i;
+        String sql = "select * from Atmosfera where idAtmosfera = " + idAtmosfera;
         ResultSet resultado = super.obtener(sql);
         if (resultado != null) {
             try {
@@ -65,10 +63,15 @@ public class AtmosferaDAO extends OperacionesClimaDAO implements ClimaDAO {
     }
 
     @Override
-    public void update(int i) {
+    public void update(Object o) {
+        Atmosfera a = null;
+        try {
+            a = (Atmosfera)o;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        String sql = "update atmosfera set humedad = " + a.getHumedad() + ", visibilidad = " + a.getVisibilidad() + " where idAtmosfera = " + a.getIdAtmosfera();
+        super.registrarActualizar(sql);
     }
-
-    @Override
-    public void delete(int i) {
-    }
+    
 }

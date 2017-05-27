@@ -12,9 +12,8 @@ import org.springframework.stereotype.Component;
  * @author José Ignacio Roth
  */
 @Component
-public interface ClimaDAO<T> {
-    int insertar(T o);
-    T select(int i);
-    void update(int i);
-    void delete(int i);
+public interface ClimaDAO<D, T> {
+    int insert(D o);
+    D select(T i);
+    void update(D o);
 }

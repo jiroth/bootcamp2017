@@ -6,7 +6,6 @@
 package bootcamp.joseroth.dao;
 
 import bootcamp.joseroth.modelos.Ubicacion;
-import bootcamp.joseroth.servicios.OperacionesClimaDAO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -21,8 +20,7 @@ import org.springframework.stereotype.Repository;
 public class UbicacionDAO extends OperacionesClimaDAO implements ClimaDAO {
 
     @Override
-    public int insertar(Object o) {
-        int id = 0;
+    public int insert(Object o) {
         Ubicacion u = null;
         try {
             u = (Ubicacion)o;
@@ -30,20 +28,20 @@ public class UbicacionDAO extends OperacionesClimaDAO implements ClimaDAO {
             System.out.println(e.getMessage());
         }
         String sql = "insert into Ubicacion (ciudad, pais) values ('" + u.getCiudad() + "', '" + u.getPais() + "');";
-        if (super.registrar(sql)) {
-            try {
-                id = super.getId("select max(idUbicacion) as id from ubicacion;");
-            } catch (SQLException ex) {
-                Logger.getLogger(UbicacionDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        int id = 0;
+        try {
+            super.registrarActualizar(sql);
+            id = super.getId("select max(idUbicacion) as id from ubicacion;");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
         return id;
     }
 
     @Override
-    public Ubicacion select(int i) {
+    public Ubicacion select(Object ciudad) {
         Ubicacion u = new Ubicacion();
-        String sql = "select * from Ubicacion where idUbicacion = " + i;
+        String sql = "select * from Ubicacion where ciudad = '" + ciudad + "';";
         ResultSet resultado = super.obtener(sql);
         if (resultado != null) {
             try {
@@ -65,11 +63,15 @@ public class UbicacionDAO extends OperacionesClimaDAO implements ClimaDAO {
     }
     
     @Override
-    public void update(int i) {
-    }
-
-    @Override
-    public void delete(int i) {
+    public void update(Object o) {
+        Ubicacion u = null;
+        try {
+            u = (Ubicacion)o;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        String sql = "update ubicacion set pais = '" + u.getPais() + "' where ciudad = '" + u.getCiudad() + "';";
+        super.registrarActualizar(sql);
     }
     
 }
