@@ -9,7 +9,5 @@
     <context:component-scan 
         base-package="bootcamp.joseroth.conexion, bootcamp.joseroth.dao, bootcamp.joseroth.transformer, 
         bootcamp.joseroth.validaciones, bootcamp.joseroth.adapters" />
- 
-    
     
 </beans>

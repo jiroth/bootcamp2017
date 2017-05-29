@@ -6,6 +6,7 @@
 package bootcamp.joseroth.adapters;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 public class AdapterEstadoClimaInglesEspanol implements Espanol {
     
     @Autowired
+    @Qualifier("estadoClimaInglesImpl")
     private Ingles ingles;
     
     @Override

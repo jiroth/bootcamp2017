@@ -27,10 +27,10 @@ import bootcamp.joseroth.adapters.Espanol;
 @Component
 public class ProxyClima implements ClienteYahooWeather {
 
-//    @Autowired
-//    @Qualifier("clienteYahooWeather")
-    @Resource
+    @Autowired
     private ClienteYahooWeather clienteYahooWeather;
+//    @Resource
+//    private ClienteYahooWeather clienteYahooWeather;
     
     @Autowired
     private Validacion validacion;
@@ -40,14 +40,16 @@ public class ProxyClima implements ClienteYahooWeather {
     @Qualifier("adapterDiaInglesEspanol")
     private Espanol adapterDiaInglesEspanol;
     @Autowired
-    @Qualifier("diaEnInglesImpl")
-    private Ingles diaEnInglesImpl;
+    @Qualifier("diaInglesImpl")
+    private Ingles diaInglesImpl;
     @Autowired
     @Qualifier("adapterEstadoClimaInglesEspanol")
     private Espanol adapterEstadoClimaInglesEspanol;
     @Autowired
     @Qualifier("estadoClimaInglesImpl")
     private Ingles estadoClimaInglesImpl;
+    
+    
     
     @Override
     public String getPronostico(String ciudad, String pais) {
@@ -77,9 +79,9 @@ public class ProxyClima implements ClienteYahooWeather {
         adapterEstadoClimaInglesEspanol.set(estadoClimaInglesImpl);
         pronostico.setEstado(adapterEstadoClimaInglesEspanol.get());
         for(Dia dia : pronostico.getPronositicoExtendido()) {
-            diaEnInglesImpl.set(dia.getDia());
+            diaInglesImpl.set(dia.getDia());
             estadoClimaInglesImpl.set(dia.getEstado());
-            adapterDiaInglesEspanol.set(diaEnInglesImpl);
+            adapterDiaInglesEspanol.set(diaInglesImpl);
             adapterEstadoClimaInglesEspanol.set(estadoClimaInglesImpl);
             dia.setEstado(adapterEstadoClimaInglesEspanol.get());
             dia.setDia(adapterDiaInglesEspanol.get());
