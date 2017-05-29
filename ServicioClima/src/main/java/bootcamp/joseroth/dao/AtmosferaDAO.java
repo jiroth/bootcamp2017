@@ -5,6 +5,7 @@
  */
 package bootcamp.joseroth.dao;
 
+import bootcamp.joseroth.builders.AtmosferaBuilder;
 import bootcamp.joseroth.modelos.Atmosfera;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,60 +19,59 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class AtmosferaDAO extends OperacionesClimaDAO implements ClimaDAO {
-    
+
     @Override
     public int insert(Object o) {
-        Atmosfera a = null;
-        try {
-            a = (Atmosfera)o;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        String sql = "insert into Atmosfera (humedad, visibilidad) values (" + a.getHumedad() + ", " + a.getVisibilidad() + ");";
         int id = 0;
         try {
+            Atmosfera a = (Atmosfera) o;
+            String sql = "insert into Atmosfera (humedad, visibilidad) values (" + a.getHumedad() + ", " + a.getVisibilidad() + ");";
             super.registrarActualizar(sql);
             id = super.getId("select max(idAtmosfera) as id from atmosfera;");
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(AtmosferaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            return id;
         }
-        return id;
     }
 
     @Override
     public Object select(Object idAtmosfera) {
-        Atmosfera a = new Atmosfera();
+        Atmosfera a = null;
         String sql = "select * from Atmosfera where idAtmosfera = " + idAtmosfera;
-        ResultSet resultado = super.obtener(sql);
-        if (resultado != null) {
-            try {
+        try {
+            ResultSet resultado = super.obtener(sql);
+            if (resultado != null) {
                 if (resultado.next()) {
-                    a.setIdAtmosfera(resultado.getInt("idAtmosfera"));
-                    a.setHumedad(resultado.getInt("humedad"));
-                    a.setVisibilidad(resultado.getDouble("visibilidad"));
+                    a = new AtmosferaBuilder()
+                            .withIdAtmosfera(resultado.getInt("idAtmosfera"))
+                            .withHumedad(resultado.getInt("humedad"))
+                            .withVisibilidad(resultado.getDouble("visibilidad"))
+                            .build();
                 }
                 if (!resultado.isClosed()) {
                     resultado.close();
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger(AtmosferaDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
+            super.st = null;
+            super.conexion.cerrarConexion();
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(AtmosferaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            return a;
         }
-        super.st = null;
-        super.conexion.cerrarConexion();
-        return a;
     }
 
     @Override
     public void update(Object o) {
-        Atmosfera a = null;
         try {
-            a = (Atmosfera)o;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+            Atmosfera a = (Atmosfera) o;
+            String sql = "update atmosfera set humedad = " + a.getHumedad() + ", visibilidad = " 
+                    + a.getVisibilidad() + " where idAtmosfera = " + a.getIdAtmosfera();
+            super.registrarActualizar(sql);
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(AtmosferaDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        String sql = "update atmosfera set humedad = " + a.getHumedad() + ", visibilidad = " + a.getVisibilidad() + " where idAtmosfera = " + a.getIdAtmosfera();
-        super.registrarActualizar(sql);
     }
-    
+
 }

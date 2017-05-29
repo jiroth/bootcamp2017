@@ -7,7 +7,7 @@ package bootcamp.joseroth.modelos;
 
 import bootcamp.joseroth.builders.AtmosferaBuilder;
 import bootcamp.joseroth.builders.PronosticoBuilder;
-import bootcamp.joseroth.builders.PronosticoExtendidoBuilder;
+import bootcamp.joseroth.builders.DiaBuilder;
 import bootcamp.joseroth.builders.UbicacionBuilder;
 import bootcamp.joseroth.builders.VientoBuilder;
 import java.text.ParseException;
@@ -30,7 +30,7 @@ public class PronosticoTest {
     private static Ubicacion ubicacion;
     private static Atmosfera atmosfera;
     private static Viento viento;
-    private static ArrayList<PronosticoExtendido> pronosticoExtendido;
+    private static ArrayList<Dia> pronosticoExtendido;
 
     public PronosticoTest() {
     }
@@ -111,13 +111,13 @@ public class PronosticoTest {
 
     @Test
     public void testSetGetPronositicoExtendido() throws ParseException {
-        ArrayList<PronosticoExtendido> expResult = new ArrayList<>();
-        PronosticoExtendido pe1 = new PronosticoExtendidoBuilder().withFecha(new SimpleDateFormat("dd MMM yyyy", Locale.US).parse("21 Apr 2017")).withDia("Fri").withEstado("Partly Cloudy").withMinima(58).withMaxima(64).build();
-        PronosticoExtendido pe2 = new PronosticoExtendidoBuilder().withFecha(new SimpleDateFormat("dd MMM yyyy", Locale.US).parse("22 Apr 2017")).withDia("Sat").withEstado("Partly Cloudy").withMinima(53).withMaxima(67).build();
+        ArrayList<Dia> expResult = new ArrayList<>();
+        Dia pe1 = new DiaBuilder().withFecha(new SimpleDateFormat("dd MMM yyyy", Locale.US).parse("21 Apr 2017")).withDia("Fri").withEstado("Partly Cloudy").withMinima(58).withMaxima(64).build();
+        Dia pe2 = new DiaBuilder().withFecha(new SimpleDateFormat("dd MMM yyyy", Locale.US).parse("22 Apr 2017")).withDia("Sat").withEstado("Partly Cloudy").withMinima(53).withMaxima(67).build();
         expResult.add(pe1);
         expResult.add(pe2);              
         p.setPronositicoExtendido(expResult);
-        ArrayList<PronosticoExtendido> result = p.getPronositicoExtendido();
+        ArrayList<Dia> result = p.getPronositicoExtendido();
         assertEquals(expResult, result);
     }
 

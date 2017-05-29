@@ -5,6 +5,7 @@
  */
 package bootcamp.joseroth.dao;
 
+import bootcamp.joseroth.builders.VientoBuilder;
 import bootcamp.joseroth.modelos.Viento;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,57 +22,56 @@ public class VientoDAO extends OperacionesClimaDAO implements ClimaDAO {
 
     @Override
     public int insert(Object o) {
-        Viento v = null;
-        try {
-            v = (Viento)o;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        String sql = "insert into Viento (direccion, velocidad) values (" + v.getDireccion() + ", " + v.getVelocidad() + ");";
         int id = 0;
         try {
+            Viento v = (Viento) o;
+            String sql = "insert into Viento (direccion, velocidad) values (" + v.getDireccion() + ", " + v.getVelocidad() + ");";
             super.registrarActualizar(sql);
             id = super.getId("select max(idViento) as id from viento;");
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(VientoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            return id;
         }
-        return id;
     }
 
     @Override
     public Object select(Object idViento) {
-        Viento v = new Viento();
+        Viento v = null;
         String sql = "select * from Viento where idViento = " + idViento;
-        ResultSet resultado = super.obtener(sql);
-        if (resultado != null) {
-            try {
+        try {
+            ResultSet resultado = super.obtener(sql);
+            if (resultado != null) {
                 if (resultado.next()) {
-                    v.setIdViento(resultado.getInt("idViento"));
-                    v.setDireccion(resultado.getInt("direccion"));
-                    v.setVelocidad(resultado.getInt("velocidad"));
+                    v = new VientoBuilder()
+                            .withIdViento(resultado.getInt("idViento"))
+                            .withDireccion(resultado.getInt("direccion"))
+                            .withVelocidad(resultado.getInt("velocidad"))
+                            .build();
                 }
                 if (!resultado.isClosed()) {
                     resultado.close();
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger(VientoDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
+            super.st = null;
+            super.conexion.cerrarConexion();
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(VientoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            return v;
         }
-        super.st = null;
-        super.conexion.cerrarConexion();
-        return v;
     }
-    
+
     @Override
     public void update(Object o) {
-        Viento v = null;
         try {
-            v = (Viento)o;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+            Viento v = (Viento) o;
+            String sql = "update viento set direccion = " + v.getDireccion() + ", velocidad = " 
+                    + v.getVelocidad() + " where idViento = " + v.getIdViento();
+            super.registrarActualizar(sql);
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(VientoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        String sql = "update viento set direccion = " + v.getDireccion() + ", velocidad = " + v.getVelocidad() + " where idViento = " + v.getIdViento();
-        super.registrarActualizar(sql);
     }
 
 }

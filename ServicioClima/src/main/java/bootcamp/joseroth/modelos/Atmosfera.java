@@ -52,7 +52,7 @@ public class Atmosfera {
 
     @Override
     public String toString() {
-        return "Humedad: " + humedad + ", Visibilidad: " + visibilidad;
+        return "Atmosfera{" + "idAtmosfera=" + idAtmosfera + ", humedad=" + humedad + ", visibilidad=" + visibilidad + '}';
     }
     
 }

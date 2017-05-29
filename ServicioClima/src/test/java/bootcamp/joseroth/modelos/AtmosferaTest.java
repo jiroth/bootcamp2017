@@ -57,13 +57,5 @@ public class AtmosferaTest {
         int result = a.getIdAtmosfera();
         assertEquals(expResult, result);
     }
-
-    @Test
-    public void testToString() {
-        System.out.println("toString");
-        String expResult = "Humedad: 57, Visibilidad: 17.1";
-        String result = a.toString();
-        assertEquals(expResult, result);
-    }
     
 }

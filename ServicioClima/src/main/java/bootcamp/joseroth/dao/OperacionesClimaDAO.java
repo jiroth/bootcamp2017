@@ -18,38 +18,29 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public abstract class OperacionesClimaDAO {
-    
+
     @Autowired
     protected Conexion conexion;
 
     protected Statement st;
 
-    protected void registrarActualizar(String sql) {
-        try {
-            conexion.abrirConexion();
-            st = conexion.getInstance().createStatement();
-            st.executeUpdate(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            st = null;
-            conexion.cerrarConexion();
-        }
+    protected void registrarActualizar(String sql) throws ClassNotFoundException, SQLException {
+        conexion.abrirConexion();
+        st = conexion.getInstance().createStatement();
+        st.executeUpdate(sql);
+        st = null;
+        conexion.cerrarConexion();
     }
 
-    protected ResultSet obtener(String sql) {
+    protected ResultSet obtener(String sql) throws ClassNotFoundException, SQLException {
         ResultSet resultado = null;
-        try {
-            conexion.abrirConexion();
-            st = conexion.getInstance().createStatement();
-            resultado = st.executeQuery(sql);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
+        conexion.abrirConexion();
+        st = conexion.getInstance().createStatement();
+        resultado = st.executeQuery(sql);
         return resultado;
     }
 
-    protected int getId(String sql) throws SQLException {
+    protected int getId(String sql) throws ClassNotFoundException, SQLException {
         int id = 0;
         ResultSet resultado = obtener(sql);
         if (resultado != null) {

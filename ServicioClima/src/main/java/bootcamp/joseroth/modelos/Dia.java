@@ -11,8 +11,8 @@ import java.util.Date;
  *
  * @author José Ignacio Roth
  */
-public class PronosticoExtendido {
-    private int idPronosticoExtendido;
+public class Dia {
+    private int idDia;
     private Date fecha;
     private String dia;
     private String estado;
@@ -61,12 +61,12 @@ public class PronosticoExtendido {
         this.maxima = maxima;
     }
 
-    public int getIdPronosticoExtendido() {
-        return idPronosticoExtendido;
+    public int getIdDia() {
+        return idDia;
     }
 
-    public void setIdPronosticoExtendido(int idPronosticoExtendido) {
-        this.idPronosticoExtendido = idPronosticoExtendido;
+    public void setIdDia(int idPronosticoExtendido) {
+        this.idDia = idPronosticoExtendido;
     }
 
     public int getIdPronostico() {
@@ -77,7 +77,7 @@ public class PronosticoExtendido {
         this.idPronostico = idPronostico;
     }
     
-    public PronosticoExtendido(Date fecha, String dia, String estado, int minima, int maxima) {
+    public Dia(Date fecha, String dia, String estado, int minima, int maxima) {
         this.fecha = fecha;
         this.dia = dia;
         this.estado = estado;
@@ -85,7 +85,12 @@ public class PronosticoExtendido {
         this.maxima = maxima;
     }
     
-    public PronosticoExtendido(){
+    public Dia(){
+    }
+
+    @Override
+    public String toString() {
+        return "PronosticoExtendido{" + "idDia=" + idDia + ", fecha=" + fecha + ", dia=" + dia + ", estado=" + estado + ", minima=" + minima + ", maxima=" + maxima + ", idPronostico=" + idPronostico + '}';
     }
     
 }

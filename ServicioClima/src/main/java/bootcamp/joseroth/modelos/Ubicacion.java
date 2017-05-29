@@ -52,7 +52,7 @@ public class Ubicacion {
 
     @Override
     public String toString() {
-        return ciudad + ", " + pais;
+        return "Ubicacion{" + "idUbicacion=" + idUbicacion + ", ciudad=" + ciudad + ", pais=" + pais + '}';
     }
     
 }

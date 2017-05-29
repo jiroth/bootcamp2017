@@ -52,7 +52,7 @@ public class Viento {
 
     @Override
     public String toString() {
-        return "Direccion: " + direccion + ", Velocidad: " + velocidad;
+        return "Viento{" + "idViento=" + idViento + ", direccion=" + direccion + ", velocidad=" + velocidad + '}';
     }
     
 }

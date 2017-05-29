@@ -21,7 +21,7 @@ public class PronosticoBuilder {
     private String estado;
     private Atmosfera atmosfera;
     private Viento viento;
-    private ArrayList<PronosticoExtendido> pronositicoExtendido;
+    private ArrayList<Dia> pronositicoExtendido;
     
     public PronosticoBuilder withIdPronostico(int id) {
         this.idPronostico = id;
@@ -58,7 +58,7 @@ public class PronosticoBuilder {
         return this;
     }
     
-    public PronosticoBuilder withPronosticoExtendido(ArrayList<PronosticoExtendido> pe) {
+    public PronosticoBuilder withPronosticoExtendido(ArrayList<Dia> pe) {
         this.pronositicoExtendido = pe;
         return this;
     }

@@ -23,25 +23,17 @@ public class Conexion {
     private static final String USUARIO = "root";
     private static final String PASSWORD = "1234";
     private Connection conexion;
-    
+
     public Connection getInstance() {
         return conexion;
     }
-    
-    public void abrirConexion() {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            conexion = DriverManager.getConnection(URL + DB + USESSL, USUARIO, PASSWORD);
-        } catch (SQLException | ClassNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
+
+    public void abrirConexion() throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.jdbc.Driver");
+        conexion = DriverManager.getConnection(URL + DB + USESSL, USUARIO, PASSWORD);
     }
-    
-    public void cerrarConexion() {
-        try {
-            conexion.close();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
+
+    public void cerrarConexion() throws SQLException {
+        conexion.close();
     }
 }

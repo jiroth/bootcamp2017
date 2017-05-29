@@ -21,7 +21,7 @@ public class Pronostico {
     private String estado;
     private Atmosfera atmosfera;
     private Viento viento;
-    private ArrayList<PronosticoExtendido> pronositicoExtendido;
+    private ArrayList<Dia> pronositicoExtendido;
 
     public int getIdPronostico() {
         return idPronostico;
@@ -79,11 +79,11 @@ public class Pronostico {
         this.viento = viento;
     }
 
-    public ArrayList<PronosticoExtendido> getPronositicoExtendido() {
+    public ArrayList<Dia> getPronositicoExtendido() {
         return pronositicoExtendido;
     }
 
-    public void setPronositicoExtendido(ArrayList<PronosticoExtendido> pronositicoExtendido) {
+    public void setPronositicoExtendido(ArrayList<Dia> pronositicoExtendido) {
         this.pronositicoExtendido = pronositicoExtendido;
     }
 
@@ -97,6 +97,11 @@ public class Pronostico {
     }
     
     public Pronostico(){
+    }
+
+    @Override
+    public String toString() {
+        return "Pronostico{" + "idPronostico=" + idPronostico + ", fecha=" + fecha + ", ubicacion=" + ubicacion + ", temperatura=" + temperatura + ", estado=" + estado + ", atmosfera=" + atmosfera + ", viento=" + viento + ", pronositicoExtendido=" + pronositicoExtendido + '}';
     }
     
 }

@@ -8,7 +8,7 @@ package bootcamp.joseroth.controladores;
 import bootcamp.joseroth.dao.ClimaDAO;
 import bootcamp.joseroth.recursos.ClienteYahooWeather;
 import bootcamp.joseroth.modelos.*;
-import javax.annotation.Resource;
+import bootcamp.joseroth.recursos.ProxyClima;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -26,10 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController()
 public class ServicioClimaController {
     
-//    @Autowired
-//    @Qualifier("clienteYahooWeather")
-    @Resource
-    ClienteYahooWeather clienteYahooWeather;
+    @Autowired
+    private ProxyClima proxyClima;
     
     @Autowired
     @Qualifier("ubicacionDAO")
@@ -62,8 +60,7 @@ public class ServicioClimaController {
     //TRAE EL JSON DE YAHOO
     @RequestMapping(value = "/ciudad/{ciudad}/pais/{pais}", method = RequestMethod.GET)
     public String get(@PathVariable("ciudad") String ciudad, @PathVariable("pais") String pais) {
-        String consultaYQL = "select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"" + ciudad + ", " + pais + "\") and u=\"c\"";
-        return clienteYahooWeather.getPronostico(consultaYQL, "json");
+        return proxyClima.getPronostico(ciudad, pais);
     }
 
 }

@@ -57,13 +57,5 @@ public class UbicacionTest {
         int result = u.getIdUbicacion();
         assertEquals(expResult, result);
     }
-
-    @Test
-    public void testToString() {
-        System.out.println("toString");
-        String expResult = "Córdoba, Argentina";
-        String result = u.toString();
-        assertEquals(expResult, result);
-    }
     
 }

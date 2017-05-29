@@ -57,13 +57,5 @@ public class VientoTest {
         int result = v.getIdViento();
         assertEquals(expResult, result);
     }
-
-    @Test
-    public void testToString() {
-        System.out.println("toString");
-        String expResult = "Direccion: 200, Velocidad: 5";
-        String result = v.toString();
-        assertEquals(expResult, result);
-    }
     
 }

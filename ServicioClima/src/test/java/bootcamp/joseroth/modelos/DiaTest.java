@@ -5,7 +5,7 @@
  */
 package bootcamp.joseroth.modelos;
 
-import bootcamp.joseroth.builders.PronosticoExtendidoBuilder;
+import bootcamp.joseroth.builders.DiaBuilder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,76 +19,76 @@ import static org.junit.Assert.*;
  *
  * @author José Ignacio Roth
  */
-public class PronosticoExtendidoTest {
+public class DiaTest {
     
-    private static PronosticoExtendido pe;
+    private static Dia dia;
     
-    public PronosticoExtendidoTest() {
+    public DiaTest() {
     }
     
     @BeforeClass
     public static void setUpClass() throws ParseException {
-        pe = new PronosticoExtendidoBuilder().withFecha(new SimpleDateFormat("dd MMM yyyy", Locale.US).parse("21 Apr 2017")).withDia("Mon").withEstado("Partly Cloudy").withMinima(58).withMaxima(64).build();
+        dia = new DiaBuilder().withFecha(new SimpleDateFormat("dd MMM yyyy", Locale.US).parse("21 Apr 2017")).withDia("Mon").withEstado("Partly Cloudy").withMinima(58).withMaxima(64).build();
     }
     
     @AfterClass
     public static void tearDownClass() {
-        pe = null;
+        dia = null;
     }
 
     @Test
     public void testSetGetFecha() throws ParseException {
         Date expResult = new SimpleDateFormat("dd MMM yyyy", Locale.US).parse("21 Apr 2017");
-        pe.setFecha(expResult);
-        Date result = pe.getFecha();
+        dia.setFecha(expResult);
+        Date result = dia.getFecha();
         assertEquals(expResult, result);
     }
 
     @Test
     public void testSetGetDia() {
         String expResult = "Mon";
-        pe.setDia(expResult);
-        String result = pe.getDia();
+        dia.setDia(expResult);
+        String result = dia.getDia();
         assertEquals(expResult, result);
     }
 
     @Test
     public void testSetGetEstado() {
         String expResult = "Partly Cloudy";
-        pe.setEstado(expResult);
-        String result = pe.getEstado();
+        dia.setEstado(expResult);
+        String result = dia.getEstado();
         assertEquals(expResult, result);
     }
 
     @Test
     public void testSetGetMinima() {
         int expResult = 58;
-        pe.setMinima(expResult);
-        int result = pe.getMinima();
+        dia.setMinima(expResult);
+        int result = dia.getMinima();
         assertEquals(expResult, result);
     }
 
     @Test
     public void testSetGetMaxima() {
         int expResult = 64;
-        pe.setMaxima(expResult);
-        int result = pe.getMaxima();
+        dia.setMaxima(expResult);
+        int result = dia.getMaxima();
         assertEquals(expResult, result);
     }
 
     @Test
     public void testSetGetIdPronosticoExtendido() {
         int expResult = 1;
-        pe.setIdPronosticoExtendido(expResult);
-        int result = pe.getIdPronosticoExtendido();
+        dia.setIdDia(expResult);
+        int result = dia.getIdDia();
         assertEquals(expResult, result);
     }
 
     @Test
     public void testSetGetIdPronostico() {
         int expResult = 2;
-        pe.setIdPronostico(expResult);
-        int result = pe.getIdPronostico();
+        dia.setIdPronostico(expResult);
+        int result = dia.getIdPronostico();
         assertEquals(expResult, result);
     }
     
