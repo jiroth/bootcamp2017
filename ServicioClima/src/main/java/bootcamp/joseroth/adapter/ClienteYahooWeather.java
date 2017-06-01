@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bootcamp.joseroth.recursos;
+package bootcamp.joseroth.adapter;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import org.springframework.http.ResponseEntity;
 
 /**
  *
@@ -20,5 +19,5 @@ import org.springframework.http.ResponseEntity;
 public interface ClienteYahooWeather {
     @GET
     @Path("/yql")
-    String getPronostico(@QueryParam("q") String consultaYQL, @QueryParam("format")String formato);
+    String getJsonWeather(@QueryParam("q") String consultaYQL, @QueryParam("format")String formato);
 }

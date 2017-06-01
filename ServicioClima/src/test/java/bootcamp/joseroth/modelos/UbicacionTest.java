@@ -5,7 +5,6 @@
  */
 package bootcamp.joseroth.modelos;
 
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -23,17 +22,11 @@ public class UbicacionTest {
     
     @BeforeClass
     public static void setUpClass() {
-        u = new Ubicacion("Córdoba", "Argentina");
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-        u = null;
+        u = new Ubicacion();
     }
 
     @Test
     public void testSetGetCiudad() {
-        System.out.println("set y get Ciudad");
         String expResult = "Córdoba";
         u.setCiudad(expResult);
         String result = u.getCiudad();
@@ -42,7 +35,6 @@ public class UbicacionTest {
 
     @Test
     public void testSetGetPais() {
-        System.out.println("set y get Pais");
         String expResult = "Argentina";
         u.setPais(expResult);
         String result = u.getPais();
@@ -51,7 +43,6 @@ public class UbicacionTest {
 
     @Test
     public void testSetGetIdUbicacion() {
-        System.out.println("set y get IdUbicacion");
         int expResult = 1;
         u.setIdUbicacion(expResult);
         int result = u.getIdUbicacion();

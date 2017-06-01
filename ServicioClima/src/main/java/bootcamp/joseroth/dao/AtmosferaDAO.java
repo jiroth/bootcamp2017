@@ -18,14 +18,14 @@ import org.springframework.stereotype.Repository;
  * @author José Ignacio Roth
  */
 @Repository
-public class AtmosferaDAO extends OperacionesClimaDAO implements ClimaDAO {
+public class AtmosferaDAO extends BaseClimaDAO implements ClimaDAO {
 
     @Override
     public int insert(Object o) {
         int id = 0;
+        Atmosfera a = (Atmosfera) o;
+        String sql = "insert into Atmosfera (humedad, visibilidad) values (" + a.getHumedad() + ", " + a.getVisibilidad() + ");";
         try {
-            Atmosfera a = (Atmosfera) o;
-            String sql = "insert into Atmosfera (humedad, visibilidad) values (" + a.getHumedad() + ", " + a.getVisibilidad() + ");";
             super.registrarActualizar(sql);
             id = super.getId("select max(idAtmosfera) as id from atmosfera;");
         } catch (ClassNotFoundException | SQLException ex) {
@@ -64,10 +64,10 @@ public class AtmosferaDAO extends OperacionesClimaDAO implements ClimaDAO {
 
     @Override
     public void update(Object o) {
+        Atmosfera a = (Atmosfera) o;
+        String sql = "update atmosfera set humedad = " + a.getHumedad() + ", visibilidad = "
+                + a.getVisibilidad() + " where idAtmosfera = " + a.getIdAtmosfera();
         try {
-            Atmosfera a = (Atmosfera) o;
-            String sql = "update atmosfera set humedad = " + a.getHumedad() + ", visibilidad = " 
-                    + a.getVisibilidad() + " where idAtmosfera = " + a.getIdAtmosfera();
             super.registrarActualizar(sql);
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(AtmosferaDAO.class.getName()).log(Level.SEVERE, null, ex);

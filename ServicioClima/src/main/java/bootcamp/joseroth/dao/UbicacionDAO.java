@@ -18,14 +18,14 @@ import org.springframework.stereotype.Repository;
  * @author José Ignacio Roth
  */
 @Repository
-public class UbicacionDAO extends OperacionesClimaDAO implements ClimaDAO {
+public class UbicacionDAO extends BaseClimaDAO implements ClimaDAO {
 
     @Override
     public int insert(Object o) {
         int id = 0;
+        Ubicacion u = (Ubicacion) o;
+        String sql = "insert into Ubicacion (ciudad, pais) values ('" + u.getCiudad() + "', '" + u.getPais() + "');";
         try {
-            Ubicacion u = (Ubicacion) o;
-            String sql = "insert into Ubicacion (ciudad, pais) values ('" + u.getCiudad() + "', '" + u.getPais() + "');";
             super.registrarActualizar(sql);
             id = super.getId("select max(idUbicacion) as id from ubicacion;");
         } catch (ClassNotFoundException | SQLException ex) {
@@ -64,9 +64,9 @@ public class UbicacionDAO extends OperacionesClimaDAO implements ClimaDAO {
 
     @Override
     public void update(Object o) {
+        Ubicacion u = (Ubicacion) o;
+        String sql = "update ubicacion set pais = '" + u.getPais() + "' where ciudad = '" + u.getCiudad() + "';";
         try {
-            Ubicacion u = (Ubicacion) o;
-            String sql = "update ubicacion set pais = '" + u.getPais() + "' where ciudad = '" + u.getCiudad() + "';";
             super.registrarActualizar(sql);
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(UbicacionDAO.class.getName()).log(Level.SEVERE, null, ex);

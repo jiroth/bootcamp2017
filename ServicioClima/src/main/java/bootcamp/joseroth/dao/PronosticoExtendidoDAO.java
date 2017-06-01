@@ -20,14 +20,14 @@ import org.springframework.stereotype.Repository;
  * @author José Ignacio Roth
  */
 @Repository
-public class PronosticoExtendidoDAO extends OperacionesClimaDAO implements ClimaDAO {
+public class PronosticoExtendidoDAO extends BaseClimaDAO implements ClimaDAO {
 
     @Override
     public int insert(Object o) {
         int id = 0;
+        ArrayList<Dia> pronosticoExtendido = (ArrayList<Dia>) o;
+        Dia dia = null;
         try {
-            ArrayList<Dia> pronosticoExtendido = (ArrayList<Dia>) o;
-            Dia dia = null;
             for (int i = 0; i < pronosticoExtendido.size(); i++) {
                 dia = pronosticoExtendido.get(i);
                 String sql = "insert into PronosticoExtendido (fecha, dia, estado, minima, maxima, idPronostico) values('"
@@ -50,9 +50,8 @@ public class PronosticoExtendidoDAO extends OperacionesClimaDAO implements Clima
         try {
             ResultSet rs = super.obtener(sql);
             if (rs != null) {
-                Dia dia;
                 while (rs.next()) {
-                    dia = new DiaBuilder()
+                    Dia dia = new DiaBuilder()
                             .withIdPronosticoExtendido(rs.getInt("idPronosticoExtendido"))
                             .withFecha(rs.getDate("fecha"))
                             .withDia(rs.getString("dia"))
@@ -78,9 +77,9 @@ public class PronosticoExtendidoDAO extends OperacionesClimaDAO implements Clima
 
     @Override
     public void update(Object o) {
+        ArrayList<Dia> pronosticoExtendido = (ArrayList<Dia>) o;
+        Dia dia = null;
         try {
-            ArrayList<Dia> pronosticoExtendido = (ArrayList<Dia>) o;
-            Dia dia = null;
             for (int i = 0; i < pronosticoExtendido.size(); i++) {
                 dia = pronosticoExtendido.get(i);
                 String sql = "update pronosticoextendido set fecha = '" + Transformer.transformDateToString(dia.getFecha())

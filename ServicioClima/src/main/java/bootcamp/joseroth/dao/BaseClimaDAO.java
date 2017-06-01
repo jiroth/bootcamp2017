@@ -10,14 +10,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  *
  * @author José Ignacio Roth
  */
-@Component
-public abstract class OperacionesClimaDAO {
+public abstract class BaseClimaDAO {
 
     @Autowired
     protected Conexion conexion;

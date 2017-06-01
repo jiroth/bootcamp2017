@@ -22,17 +22,17 @@ import org.springframework.stereotype.Repository;
  * @author José Ignacio Roth
  */
 @Repository
-public class PronosticoDAO extends OperacionesClimaDAO implements ClimaDAO {
+public class PronosticoDAO extends BaseClimaDAO implements ClimaDAO {
 
     @Override
     public int insert(Object o) {
         int id = 0;
+        Pronostico p = (Pronostico) o;
+        String sql = "insert into pronostico(fecha, idUbicacion, temperatura, estado, idAtmosfera, idViento) "
+                + "values('" + Transformer.transformDateToString(p.getFecha()) + "', " + p.getUbicacion().getIdUbicacion() + ", "
+                + p.getTemperatura() + ", '" + p.getEstado() + "', " + p.getAtmosfera().getIdAtmosfera() + ", "
+                + p.getViento().getIdViento() + ");";
         try {
-            Pronostico p = (Pronostico) o;
-            String sql = "insert into pronostico(fecha, idUbicacion, temperatura, estado, idAtmosfera, idViento) "
-                    + "values('" + Transformer.transformDateToString(p.getFecha()) + "', " + p.getUbicacion().getIdUbicacion() + ", "
-                    + p.getTemperatura() + ", '" + p.getEstado() + "', " + p.getAtmosfera().getIdAtmosfera() + ", "
-                    + p.getViento().getIdViento() + ");";
             super.registrarActualizar(sql);
             id = super.getId("select max(idPronostico) as id from pronostico;");
         } catch (ClassNotFoundException | SQLException ex) {
@@ -75,11 +75,11 @@ public class PronosticoDAO extends OperacionesClimaDAO implements ClimaDAO {
 
     @Override
     public void update(Object o) {
+        Pronostico p = (Pronostico) o;
+        String sql = "update pronostico set fecha = '" + Transformer.transformDateToString(p.getFecha()) + "', temperatura = "
+                + p.getTemperatura() + ", estado = '" + p.getEstado() + "', idAtmosfera = " + p.getAtmosfera().getIdAtmosfera()
+                + ", idViento = " + p.getViento().getIdViento() + " where idUbicacion = " + p.getUbicacion().getIdUbicacion();
         try {
-            Pronostico p = (Pronostico) o;
-            String sql = "update pronostico set fecha = '" + Transformer.transformDateToString(p.getFecha()) + "', temperatura = "
-                    + p.getTemperatura() + ", estado = '" + p.getEstado() + "', idAtmosfera = " + p.getAtmosfera().getIdAtmosfera()
-                    + ", idViento = " + p.getViento().getIdViento() + " where idUbicacion = " + p.getUbicacion().getIdUbicacion();
             super.registrarActualizar(sql);
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(PronosticoDAO.class.getName()).log(Level.SEVERE, null, ex);

@@ -5,7 +5,6 @@
  */
 package bootcamp.joseroth.modelos;
 
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -23,17 +22,11 @@ public class AtmosferaTest {
     
     @BeforeClass
     public static void setUpClass() {
-        a = new Atmosfera(57, 17.1);
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-        a = null;
+        a = new Atmosfera();
     }
 
     @Test
     public void testSetGetHumedad() {
-        System.out.println("set y get Humedad");
         int expResult = 57;
         a.setHumedad(expResult);
         int result = a.getHumedad();
@@ -42,7 +35,6 @@ public class AtmosferaTest {
 
     @Test
     public void testSetGetVisibilidad() {
-        System.out.println("set y get Visibilidad");
         double expResult = 17.1;
         a.setVisibilidad(expResult);
         double result = a.getVisibilidad();
@@ -51,7 +43,6 @@ public class AtmosferaTest {
 
     @Test
     public void testSetGetIdAtmosfera() {
-        System.out.println("set y get IdAtmosfera");
         int expResult = 1;
         a.setIdAtmosfera(expResult);
         int result = a.getIdAtmosfera();

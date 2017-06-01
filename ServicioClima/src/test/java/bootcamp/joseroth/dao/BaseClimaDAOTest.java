@@ -24,14 +24,14 @@ import org.junit.runners.MethodSorters;
  * @author José Ignacio Roth
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class OperacionesClimaDAOTest {
+public class BaseClimaDAOTest {
     private static Connection h2;
     private static String url = "jdbc:h2:mem:ServicioClima;MODE=MySQL;IGNORECASE=TRUE;INIT=runscript from 'src/main/resources/BaseDeDatos.sql'";
     private static String user = "root";
     private static String pwds = "1234";
     private static Statement st;
     
-    public OperacionesClimaDAOTest() {
+    public BaseClimaDAOTest() {
     }
     
     @BeforeClass

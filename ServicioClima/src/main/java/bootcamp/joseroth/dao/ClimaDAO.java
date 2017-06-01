@@ -5,13 +5,10 @@
  */
 package bootcamp.joseroth.dao;
 
-import org.springframework.stereotype.Component;
-
 /**
  *
  * @author José Ignacio Roth
  */
-@Component
 public interface ClimaDAO<D, T> {
     int insert(D o);
     D select(T i);

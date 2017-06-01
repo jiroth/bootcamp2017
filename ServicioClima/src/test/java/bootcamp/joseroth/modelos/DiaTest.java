@@ -10,7 +10,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -28,12 +27,7 @@ public class DiaTest {
     
     @BeforeClass
     public static void setUpClass() throws ParseException {
-        dia = new DiaBuilder().withFecha(new SimpleDateFormat("dd MMM yyyy", Locale.US).parse("21 Apr 2017")).withDia("Mon").withEstado("Partly Cloudy").withMinima(58).withMaxima(64).build();
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-        dia = null;
+        dia = new Dia();
     }
 
     @Test

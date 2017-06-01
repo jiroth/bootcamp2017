@@ -3,16 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bootcamp.joseroth.adapters;
+package bootcamp.joseroth.adapter;
 
-import org.springframework.stereotype.Component;
+import bootcamp.joseroth.modelos.Pronostico;
 
 /**
  *
  * @author José Ignacio Roth
  */
-@Component
-public interface Espanol {
-    String get();
-    void set(Ingles ingles);
+public interface ObjectYahooWeather {
+    Pronostico getPronostico(String ciudad, String pais);
 }

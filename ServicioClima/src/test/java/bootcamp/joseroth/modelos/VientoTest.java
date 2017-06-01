@@ -5,7 +5,6 @@
  */
 package bootcamp.joseroth.modelos;
 
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -23,17 +22,11 @@ public class VientoTest {
     
     @BeforeClass
     public static void setUpClass() {
-        v = new Viento(200, 5);
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-        v = null;
+        v = new Viento();
     }
 
     @Test
     public void testSetGetDireccion() {
-        System.out.println("set y get Direccion");
         int expResult = 200;
         v.setDireccion(expResult);
         int result = v.getDireccion();
@@ -42,7 +35,6 @@ public class VientoTest {
 
     @Test
     public void testSetGetVelocidad() {
-        System.out.println("set y get Velocidad");
         int expResult = 5;
         v.setVelocidad(expResult);
         int result = v.getVelocidad();
@@ -51,7 +43,6 @@ public class VientoTest {
 
     @Test
     public void testSetGetIdViento() {
-        System.out.println("set y get IdViento");
         int expResult = 1;
         v.setIdViento(expResult);
         int result = v.getIdViento();

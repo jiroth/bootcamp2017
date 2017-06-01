@@ -18,14 +18,14 @@ import org.springframework.stereotype.Repository;
  * @author José Ignacio Roth
  */
 @Repository
-public class VientoDAO extends OperacionesClimaDAO implements ClimaDAO {
+public class VientoDAO extends BaseClimaDAO implements ClimaDAO {
 
     @Override
     public int insert(Object o) {
         int id = 0;
+        Viento v = (Viento) o;
+        String sql = "insert into Viento (direccion, velocidad) values (" + v.getDireccion() + ", " + v.getVelocidad() + ");";
         try {
-            Viento v = (Viento) o;
-            String sql = "insert into Viento (direccion, velocidad) values (" + v.getDireccion() + ", " + v.getVelocidad() + ");";
             super.registrarActualizar(sql);
             id = super.getId("select max(idViento) as id from viento;");
         } catch (ClassNotFoundException | SQLException ex) {
@@ -64,10 +64,10 @@ public class VientoDAO extends OperacionesClimaDAO implements ClimaDAO {
 
     @Override
     public void update(Object o) {
+        Viento v = (Viento) o;
+        String sql = "update viento set direccion = " + v.getDireccion() + ", velocidad = "
+                + v.getVelocidad() + " where idViento = " + v.getIdViento();
         try {
-            Viento v = (Viento) o;
-            String sql = "update viento set direccion = " + v.getDireccion() + ", velocidad = " 
-                    + v.getVelocidad() + " where idViento = " + v.getIdViento();
             super.registrarActualizar(sql);
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(VientoDAO.class.getName()).log(Level.SEVERE, null, ex);

@@ -8,8 +8,6 @@ package bootcamp.joseroth.conexion;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -26,18 +24,9 @@ public class ConexionTest {
     public ConexionTest() {
     }
     
-    @BeforeClass
-    public static void setUpClass() throws ClassNotFoundException {
-        Class.forName("org.h2.Driver");
-    }
-    
-    @AfterClass
-    public static void tearDownClass() throws SQLException {
-        h2.close();
-    }
-    
     @Test 
     public void test01AbrirConexion() throws SQLException, ClassNotFoundException {
+        Class.forName("org.h2.Driver");
         h2 = DriverManager.getConnection(url, user, pwds);
         assertNotNull(h2);
         assertFalse(h2.isClosed());
@@ -49,7 +38,6 @@ public class ConexionTest {
             h2.close();
             assertTrue(true);
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
             fail("No se pudo cerrar la conexión.");
         }
     }

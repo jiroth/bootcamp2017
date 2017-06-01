@@ -6,7 +6,6 @@
 package bootcamp.joseroth.modelos;
 
 import bootcamp.joseroth.builders.AtmosferaBuilder;
-import bootcamp.joseroth.builders.PronosticoBuilder;
 import bootcamp.joseroth.builders.DiaBuilder;
 import bootcamp.joseroth.builders.UbicacionBuilder;
 import bootcamp.joseroth.builders.VientoBuilder;
@@ -15,7 +14,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -40,17 +38,8 @@ public class PronosticoTest {
         ubicacion = new UbicacionBuilder().withIdUbicacion(1).withCiudad("Córdoba").withPais("Argentina").build();
         atmosfera = new AtmosferaBuilder().withIdAtmosfera(1).withHumedad(59).withVisibilidad(18).build();
         viento = new VientoBuilder().withIdViento(1).withDireccion(203).withVelocidad(7).build();
-        p = new PronosticoBuilder().withFecha(new SimpleDateFormat("EEE, dd MMM yyyy HH:mm aaa z", Locale.US).parse("Fri, 26 May 2017 10:00 AM ART")).withEstado("Cloudy").withTemperatura(64).withAtmosfera(atmosfera).withViento(viento).withUbicacion(ubicacion).build();
+        p = new Pronostico();
         pronosticoExtendido = new ArrayList<>();
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-        p = null;
-        ubicacion = null;
-        atmosfera = null;
-        viento = null;
-        pronosticoExtendido = null;
     }
 
     @Test
