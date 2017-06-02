@@ -5,6 +5,8 @@
  */
 package bootcamp.joseroth.modelos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *
  * @author José Ignacio Roth
@@ -30,6 +32,7 @@ public class Viento {
         this.velocidad = velocidad;
     }
 
+    @JsonIgnore
     public int getIdViento() {
         return idViento;
     }

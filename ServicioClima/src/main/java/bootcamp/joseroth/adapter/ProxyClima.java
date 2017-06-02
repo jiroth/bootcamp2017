@@ -39,4 +39,12 @@ public class ProxyClima implements ClienteYahooWeather {
 
     }
 
+    public ProxyClima(ClienteYahooWeather clienteYahooWeather, Validacion validacion) {
+        this.clienteYahooWeather = clienteYahooWeather;
+        this.validacion = validacion;
+    }
+
+    public ProxyClima() {
+    }
+
 }

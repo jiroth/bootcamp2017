@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author José Ignacio Roth
  */
+
 public abstract class BaseClimaDAO {
 
     @Autowired

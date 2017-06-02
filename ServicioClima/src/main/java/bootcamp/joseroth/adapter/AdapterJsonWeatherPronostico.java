@@ -34,5 +34,12 @@ public class AdapterJsonWeatherPronostico implements ObjectYahooWeather {
         }
         return pronostico;
     }
+
+    public AdapterJsonWeatherPronostico(ClienteYahooWeather proxyClima) {
+        this.proxyClima = proxyClima;
+    }
+
+    public AdapterJsonWeatherPronostico() {
+    }
     
 }

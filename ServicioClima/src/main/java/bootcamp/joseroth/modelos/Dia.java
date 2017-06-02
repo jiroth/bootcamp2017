@@ -5,6 +5,9 @@
  */
 package bootcamp.joseroth.modelos;
 
+import bootcamp.joseroth.utiles.JsonDateSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.Date;
 
 /**
@@ -20,7 +23,7 @@ public class Dia {
     private int maxima;
     private int idPronostico;
 
-
+    @JsonSerialize(using=JsonDateSerializer.class)
     public Date getFecha() {
         return fecha;
     }
@@ -61,6 +64,7 @@ public class Dia {
         this.maxima = maxima;
     }
 
+    @JsonIgnore
     public int getIdDia() {
         return idDia;
     }
@@ -69,6 +73,7 @@ public class Dia {
         this.idDia = idPronosticoExtendido;
     }
 
+    @JsonIgnore
     public int getIdPronostico() {
         return idPronostico;
     }

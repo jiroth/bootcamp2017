@@ -6,6 +6,9 @@
 package bootcamp.joseroth.modelos;
 
 
+import bootcamp.joseroth.utiles.JsonDateSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -23,6 +26,7 @@ public class Pronostico {
     private Viento viento;
     private ArrayList<Dia> pronositicoExtendido;
 
+    @JsonIgnore
     public int getIdPronostico() {
         return idPronostico;
     }
@@ -31,6 +35,7 @@ public class Pronostico {
         this.idPronostico = idPronostico;
     }
 
+    @JsonSerialize(using=JsonDateSerializer.class)
     public Date getFecha() {
         return fecha;
     }
