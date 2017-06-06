@@ -154,6 +154,7 @@ public class ServicioRestControllerTest {
         EasyMock.expect(objYahooMock.getPronostico(ciudad, pais)).andReturn(null);
 
         EasyMock.expect(servBaseContMock.comprobarConexionBaseDatos()).andReturn(false);
+        EasyMock.expect(servBaseContMock.comprobarExistenciaEnBaseDatos(EasyMock.anyObject(Ubicacion.class))).andReturn(false);
 
         EasyMock.replay(objYahooMock, servBaseContMock);
 
@@ -167,12 +168,11 @@ public class ServicioRestControllerTest {
 
     @Test
     public void testGetYahooWeatherAllOK() throws ClassNotFoundException, SQLException, ParseException {
-        EasyMock.expect(proMock.getUbicacion()).andReturn(ubiMock);
 
         EasyMock.expect(objYahooMock.getPronostico(ciudad, pais)).andReturn(proMock);
 
         EasyMock.expect(servBaseContMock.comprobarConexionBaseDatos()).andReturn(true);
-        EasyMock.expect(servBaseContMock.comprobarExistenciaEnBaseDatos(EasyMock.anyObject())).andReturn(true);
+        EasyMock.expect(servBaseContMock.comprobarExistenciaEnBaseDatos(EasyMock.anyObject(Ubicacion.class))).andReturn(true);
         servBaseContMock.actualizarEnBaseDatos(proMock);
 
         EasyMock.replay(ubiMock, proMock, objYahooMock, servBaseContMock);
@@ -208,6 +208,7 @@ public class ServicioRestControllerTest {
         EasyMock.expect(objYahooMock.getPronostico(ciudad, pais)).andReturn(proMock);
 
         EasyMock.expect(servBaseContMock.comprobarConexionBaseDatos()).andReturn(false);
+        EasyMock.expect(servBaseContMock.comprobarExistenciaEnBaseDatos(EasyMock.anyObject(Ubicacion.class))).andReturn(true);
 
         EasyMock.replay(proMock, objYahooMock, servBaseContMock);
 

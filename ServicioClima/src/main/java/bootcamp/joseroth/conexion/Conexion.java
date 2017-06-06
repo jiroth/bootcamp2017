@@ -20,8 +20,8 @@ public class Conexion {
     private static final String URL = "jdbc:mysql://localhost:3306/";
     private static final String DB = "ServicioClima";
     private static final String USESSL = "?&useSSL=false";
-    private static final String USUARIO = "root";
-    private static final String PASSWORD = "1234";
+    private static final String USUARIO = "jir";
+    private static final String PASSWORD = "3712";
     private Connection conexion;
 
     public Connection getInstance() {

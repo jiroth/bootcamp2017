@@ -16,11 +16,7 @@ public class Validacion {
 
     public boolean validarParametros(String ciudad, String pais) {
         String regex = "^[a-zA-Z ]+$";
-        if (ciudad.matches(regex) && pais.matches(regex)) {
-            return true;
-        } else {
-            return false;
-        }
+        return (ciudad.matches(regex) && pais.matches(regex));
     }
 
 }

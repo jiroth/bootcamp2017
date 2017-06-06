@@ -75,27 +75,28 @@ public class ServicioRestController {
     @RequestMapping(value = "/ciudad/{ciudad}/pais/{pais}", method = RequestMethod.GET)
     public ResponseEntity getYahooWeather(@PathVariable("ciudad") String ciudad, @PathVariable("pais") String pais) throws ParseException {
         ResponseEntity responseEntity;
+        String error = "";
         Pronostico pronostico = adapterJsonWeatherPronostico.getPronostico(ciudad, pais);
+        
+        boolean conexionBaseDatos = servicioBaseController.comprobarConexionBaseDatos();
+        boolean existenciaCiudadBaseDatos = servicioBaseController.comprobarExistenciaEnBaseDatos(new UbicacionBuilder().withCiudad(ciudad).withPais(pais).build());
+
         if (pronostico != null) {
-            if (servicioBaseController.comprobarConexionBaseDatos()) {
-                if (servicioBaseController.comprobarExistenciaEnBaseDatos(pronostico.getUbicacion())) {
+            if (conexionBaseDatos)
+                if (existenciaCiudadBaseDatos) 
                     servicioBaseController.actualizarEnBaseDatos(pronostico);
-                } else {
+                else 
                     servicioBaseController.registrarEnBaseDatos(pronostico);
-                }
-            }
             responseEntity = new ResponseEntity<>(pronostico, HttpStatus.OK);
         } else {
-            if (servicioBaseController.comprobarConexionBaseDatos()) {
-                if (servicioBaseController.comprobarExistenciaEnBaseDatos(new UbicacionBuilder().withCiudad(ciudad).withPais(pais).build())) {
+            if (conexionBaseDatos) {
+                if (existenciaCiudadBaseDatos) {
                     pronostico = servicioBaseController.getPronosticoBaseDatos(ciudad);
                     responseEntity = new ResponseEntity<>(pronostico, HttpStatus.OK);
-                } else {
+                } else
                     responseEntity = new ResponseEntity<>("El pronostico no esta disponible para la ubicación que desea.", HttpStatus.NOT_FOUND);
-                }
-            } else {
+            } else
                 responseEntity = new ResponseEntity<>("El servicio está temporalmente caído. Intente nuevamente en unos minutos.", HttpStatus.NOT_FOUND);
-            }
         }
         return responseEntity;
     }
